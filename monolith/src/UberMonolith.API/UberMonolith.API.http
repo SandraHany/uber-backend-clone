@@ -1,0 +1,6 @@
+@UberMonolith.API_HostAddress = http://localhost:5037
+
+GET {{UberMonolith.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

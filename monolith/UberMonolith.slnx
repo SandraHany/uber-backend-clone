@@ -1,0 +1,8 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/UberMonolith.API/UberMonolith.API.csproj" />
+    <Project Path="src/UberMonolith.Application/UberMonolith.Application.csproj" />
+    <Project Path="src/UberMonolith.Domain/UberMonolith.Domain.csproj" />
+    <Project Path="src/UberMonolith.Infrastructure/UberMonolith.Infrastructure.csproj" />
+  </Folder>
+</Solution>
