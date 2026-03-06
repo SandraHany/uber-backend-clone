@@ -15,7 +15,7 @@ public class Trip
     public DateTime RequestedAt { get; set; }
     public string? CancellationReason { get; set; }
     public decimal Fare { get; set; }
-    public Enum TripStatus { get; set; }
+    public TripStatus TripStatus { get; set; }
     public double Distance {get;set;}
 
 }

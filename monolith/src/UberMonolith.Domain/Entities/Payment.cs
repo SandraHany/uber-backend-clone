@@ -8,7 +8,7 @@ public class Payment
     public decimal Amount { get; set; }
     public DateTime PaidAt { get; set; }
     public DateTime UpdatedAt {get; set;}
-    public Enum PaymentStatus {get; set;}
+    public PaymentStatus PaymentStatus {get; set;}
     public Guid TransactionId { get; set; }
 
 }

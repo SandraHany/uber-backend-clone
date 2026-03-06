@@ -9,5 +9,7 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.2" />
   </ItemGroup>
-
+  <ItemGroup>
+    <ProjectReference Include="..\UberMonolith.Infrastructure\UberMonolith.Infrastructure.csproj" />
+  </ItemGroup>
 </Project>
