@@ -38,4 +38,11 @@ public class RidesController : ControllerBase
         var rideDto = _mapper.Map<RideDto>(newRide);
         return CreatedAtAction(nameof(GetRide), new { id = rideDto.Id }, rideDto);
     }
+    [HttpGet]
+    [Route("nearby-drivers")]
+    public async Task<ActionResult<List<NearbyDriverDto>>> GetNearbyDrivers(double latitude, double longitude, int radiusKm = 3)
+    {
+        var nearbyDrivers = await _rideRepository.GetNearbyDrivers(latitude, longitude, radiusKm);
+        return Ok(nearbyDrivers);
+    }
 }

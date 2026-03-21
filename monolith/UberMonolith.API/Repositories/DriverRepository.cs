@@ -21,7 +21,7 @@ public class DriverRepository : IDriverRepository
     }
     public async Task<List<Driver>> GetDriversByIdsAsync(List<Guid> driverIds)
     {
-       return  await _context.Drivers.Where(x=> driverIds.Contains(x.Id)).ToListAsync();
+       return  await _context.Drivers.Where(x=> driverIds.Contains(x.Id)).Include(d => d.Vehicle).Include(d => d.User).ToListAsync();
 
     }
     public async Task<Driver?> GetDriverByIdAsync(Guid driverId)

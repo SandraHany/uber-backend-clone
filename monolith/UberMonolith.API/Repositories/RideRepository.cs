@@ -26,7 +26,7 @@ public class RideRepository : IRideRepository
             latitude,           
             radiusKm,
             GeoUnit.Kilometers,
-            count: 10,
+            count: 3,
             order: Order.Ascending,
             options: GeoRadiusOptions.WithDistance);
         var driverIds =  geoResults.Select(r => Guid.Parse(r.Member.ToString())).ToList();
