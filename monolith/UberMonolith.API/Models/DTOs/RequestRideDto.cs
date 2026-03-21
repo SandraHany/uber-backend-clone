@@ -1,4 +1,4 @@
-﻿using UberMonolith.Models.Enums;
+﻿using UberMonolith.API.Models.Enums;
 
 namespace UberMonolith.API.Models.DTOs;
 

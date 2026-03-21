@@ -6,7 +6,7 @@ using UberMonolith.API.Models.DTOs;
 using UberMonolith.API.Repositories;
 
 
-namespace UberMonolith.Controllers;
+namespace UberMonolith.API.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]

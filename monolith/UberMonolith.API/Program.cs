@@ -1,10 +1,10 @@
-using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 using UberMonolith.API.Infrastructure.Data;
 using UberMonolith.API.Mappings;
 using UberMonolith.API.Repositories;
-
+using StackExchange.Redis;
+using UberMonolith.API;
 var builder = WebApplication.CreateBuilder(args);
 var connectionString =
     builder.Configuration.GetConnectionString("PostgreSqlConnection")
@@ -30,6 +30,10 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(connectionString));
 
 builder.Services.AddScoped<IRideRepository, RideRepository>();
+builder.Services.AddScoped<IDriverRepository,DriverRepository>();
+builder.Services.AddSingleton<IConnectionMultiplexer>(ConnectionMultiplexer.Connect(builder.Configuration.GetConnectionString("RedisConnection")));
+builder.Services.AddScoped(c => c.GetRequiredService<IConnectionMultiplexer>().GetDatabase());
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -39,7 +43,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-app.UseMiddleware<ExceptionHandlerMiddleware>();
+app.UseMiddleware<UberMonolith.API.ExceptionHandlerMiddleware>();
 
 app.UseHttpsRedirection();
 

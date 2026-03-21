@@ -34,9 +34,14 @@ namespace UberMonolith.API.Migrations
                     b.Property<Guid>("UserId")
                         .HasColumnType("uuid");
 
+                    b.Property<Guid>("VehicleId")
+                        .HasColumnType("uuid");
+
                     b.HasKey("Id");
 
                     b.HasIndex("UserId");
+
+                    b.HasIndex("VehicleId");
 
                     b.ToTable("Drivers");
                 });
@@ -124,6 +129,9 @@ namespace UberMonolith.API.Migrations
                     b.Property<int>("RideStatus")
                         .HasColumnType("integer");
 
+                    b.Property<int>("RideType")
+                        .HasColumnType("integer");
+
                     b.Property<Guid>("RiderId")
                         .HasColumnType("uuid");
 
@@ -168,7 +176,7 @@ namespace UberMonolith.API.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("PasswordHash")
+                    b.Property<string>("Password")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -193,8 +201,17 @@ namespace UberMonolith.API.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<Guid>("DriverId")
-                        .HasColumnType("uuid");
+                    b.Property<string>("Colour")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Make")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Model")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<string>("PlateNumber")
                         .IsRequired()
@@ -213,7 +230,15 @@ namespace UberMonolith.API.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("UberMonolith.API.Models.Domains.Vehicle", "Vehicle")
+                        .WithMany()
+                        .HasForeignKey("VehicleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("User");
+
+                    b.Navigation("Vehicle");
                 });
 
             modelBuilder.Entity("UberMonolith.API.Models.Domains.Payment", b =>

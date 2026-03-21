@@ -2,27 +2,30 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
-using UberMonolith.Infrastructure;
+using UberMonolith.API.Infrastructure.Data;
 
 #nullable disable
 
-namespace UberMonolith.Infrastructure.Migrations
+namespace UberMonolith.API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260321141742_Initial")]
+    partial class Initial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "9.0.1")
+                .HasAnnotation("ProductVersion", "10.0.4")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("UberMonolith.Domain.Driver", b =>
+            modelBuilder.Entity("UberMonolith.API.Models.Domains.Driver", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -34,14 +37,22 @@ namespace UberMonolith.Infrastructure.Migrations
                     b.Property<Guid>("UserId")
                         .HasColumnType("uuid");
 
+                    b.Property<Guid>("VehicleId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("VehicleId1")
+                        .HasColumnType("uuid");
+
                     b.HasKey("Id");
 
                     b.HasIndex("UserId");
 
+                    b.HasIndex("VehicleId1");
+
                     b.ToTable("Drivers");
                 });
 
-            modelBuilder.Entity("UberMonolith.Domain.Payment", b =>
+            modelBuilder.Entity("UberMonolith.API.Models.Domains.Payment", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -56,6 +67,9 @@ namespace UberMonolith.Infrastructure.Migrations
                     b.Property<int>("PaymentStatus")
                         .HasColumnType("integer");
 
+                    b.Property<Guid>("RideId")
+                        .HasColumnType("uuid");
+
                     b.Property<Guid>("TransactionId")
                         .HasColumnType("uuid");
 
@@ -67,31 +81,12 @@ namespace UberMonolith.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("TripId");
+                    b.HasIndex("RideId");
 
                     b.ToTable("Payments");
                 });
 
-            modelBuilder.Entity("UberMonolith.Domain.Rider", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<int>("RiderStatus")
-                        .HasColumnType("integer");
-
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Riders");
-                });
-
-            modelBuilder.Entity("UberMonolith.Domain.Trip", b =>
+            modelBuilder.Entity("UberMonolith.API.Models.Domains.Ride", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -115,36 +110,62 @@ namespace UberMonolith.Infrastructure.Migrations
                     b.Property<Guid>("DriverId")
                         .HasColumnType("uuid");
 
-                    b.Property<decimal>("DropoffLatitude")
+                    b.Property<string>("DropoffLatitude")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("DropoffLongitude")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<decimal?>("Fare")
                         .HasColumnType("numeric");
 
-                    b.Property<decimal>("DropoffLongitude")
-                        .HasColumnType("numeric");
+                    b.Property<string>("PickupLatitude")
+                        .IsRequired()
+                        .HasColumnType("text");
 
-                    b.Property<decimal>("Fare")
-                        .HasColumnType("numeric");
-
-                    b.Property<decimal>("PickupLatitude")
-                        .HasColumnType("numeric");
-
-                    b.Property<decimal>("PickupLongitude")
-                        .HasColumnType("numeric");
+                    b.Property<string>("PickupLongitude")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<DateTime>("RequestedAt")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<int>("RideStatus")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("RideType")
+                        .HasColumnType("integer");
+
                     b.Property<Guid>("RiderId")
                         .HasColumnType("uuid");
 
-                    b.Property<int>("TripStatus")
+                    b.HasKey("Id");
+
+                    b.ToTable("Rides");
+                });
+
+            modelBuilder.Entity("UberMonolith.API.Models.Domains.Rider", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("RiderStatus")
                         .HasColumnType("integer");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Trips");
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Riders");
                 });
 
-            modelBuilder.Entity("UberMonolith.Domain.User", b =>
+            modelBuilder.Entity("UberMonolith.API.Models.Domains.User", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -161,7 +182,7 @@ namespace UberMonolith.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("PasswordHash")
+                    b.Property<string>("Password")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -180,14 +201,26 @@ namespace UberMonolith.Infrastructure.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("UberMonolith.Domain.Vehicle", b =>
+            modelBuilder.Entity("UberMonolith.API.Models.Domains.Vehicle", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
+                    b.Property<string>("Colour")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<Guid>("DriverId")
                         .HasColumnType("uuid");
+
+                    b.Property<string>("Make")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Model")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<string>("PlateNumber")
                         .IsRequired()
@@ -198,31 +231,39 @@ namespace UberMonolith.Infrastructure.Migrations
                     b.ToTable("Vehicles");
                 });
 
-            modelBuilder.Entity("UberMonolith.Domain.Driver", b =>
+            modelBuilder.Entity("UberMonolith.API.Models.Domains.Driver", b =>
                 {
-                    b.HasOne("UberMonolith.Domain.User", "User")
+                    b.HasOne("UberMonolith.API.Models.Domains.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("UberMonolith.Domain.Payment", b =>
-                {
-                    b.HasOne("UberMonolith.Domain.Trip", "Trip")
+                    b.HasOne("UberMonolith.API.Models.Domains.Vehicle", "Vehicle")
                         .WithMany()
-                        .HasForeignKey("TripId")
+                        .HasForeignKey("VehicleId1")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Trip");
+                    b.Navigation("User");
+
+                    b.Navigation("Vehicle");
                 });
 
-            modelBuilder.Entity("UberMonolith.Domain.Rider", b =>
+            modelBuilder.Entity("UberMonolith.API.Models.Domains.Payment", b =>
                 {
-                    b.HasOne("UberMonolith.Domain.User", "User")
+                    b.HasOne("UberMonolith.API.Models.Domains.Ride", "Ride")
+                        .WithMany()
+                        .HasForeignKey("RideId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Ride");
+                });
+
+            modelBuilder.Entity("UberMonolith.API.Models.Domains.Rider", b =>
+                {
+                    b.HasOne("UberMonolith.API.Models.Domains.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)

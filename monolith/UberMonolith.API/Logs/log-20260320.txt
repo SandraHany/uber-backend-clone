@@ -1,0 +1,364 @@
+2026-03-20 16:55:04.077 +02:00 [DBG] Registered model binder providers, in the following order: ["Microsoft.AspNetCore.Mvc.ModelBinding.Binders.BinderTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ServicesModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.BodyModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.HeaderModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.FloatingPointTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.EnumTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.DateTimeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.SimpleTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.TryParseModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.CancellationTokenModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ByteArrayModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.FormFileModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.FormCollectionModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.KeyValuePairModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.DictionaryModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ArrayModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.CollectionModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ComplexObjectModelBinderProvider"]
+2026-03-20 16:55:04.139 +02:00 [DBG] Hosting starting
+2026-03-20 16:55:04.151 +02:00 [FTL] Application startup exception
+System.InvalidOperationException: An error occurred when configuring the exception handler middleware. Either the 'ExceptionHandlingPath' or the 'ExceptionHandler' property must be set in 'UseExceptionHandler()'. Alternatively, set one of the aforementioned properties in 'Startup.ConfigureServices' as follows: 'services.AddExceptionHandler(options => { ... });' or configure to generate a 'ProblemDetails' response in 'service.AddProblemDetails()'.
+   at Microsoft.AspNetCore.Diagnostics.ExceptionHandlerMiddlewareImpl..ctor(RequestDelegate next, ILoggerFactory loggerFactory, IOptions`1 options, DiagnosticListener diagnosticListener, IEnumerable`1 exceptionHandlers, IMeterFactory meterFactory, IProblemDetailsService problemDetailsService)
+   at Microsoft.AspNetCore.Diagnostics.ExceptionHandlerMiddleware..ctor(RequestDelegate next, ILoggerFactory loggerFactory, IOptions`1 options, DiagnosticListener diagnosticListener)
+   at System.Reflection.ConstructorInvoker.InterpretedInvoke(Object obj, IntPtr* args)
+   at System.Reflection.ConstructorInvoker.InvokeDirectByRefWithFewArgs(Span`1 copyOfArgs)
+   at System.Reflection.ConstructorInvoker.InvokeDirectByRef(Object arg1, Object arg2, Object arg3, Object arg4)
+   at System.Reflection.ConstructorInvoker.InvokeImpl(Object arg1, Object arg2, Object arg3, Object arg4)
+   at Microsoft.Extensions.DependencyInjection.ActivatorUtilities.ConstructorMatcher.CreateInstance(IServiceProvider provider)
+   at Microsoft.Extensions.DependencyInjection.ActivatorUtilities.CreateInstance(IServiceProvider provider, Type instanceType, Object[] parameters)
+   at Microsoft.AspNetCore.Builder.UseMiddlewareExtensions.ReflectionMiddlewareBinder.CreateMiddleware(RequestDelegate next)
+   at Microsoft.AspNetCore.Builder.ApplicationBuilder.Build()
+   at Microsoft.AspNetCore.Builder.ApplicationBuilder.Build()
+   at Microsoft.AspNetCore.Hosting.GenericWebHostService.StartAsync(CancellationToken cancellationToken)
+2026-03-20 16:55:04.158 +02:00 [ERR] Hosting failed to start
+System.InvalidOperationException: An error occurred when configuring the exception handler middleware. Either the 'ExceptionHandlingPath' or the 'ExceptionHandler' property must be set in 'UseExceptionHandler()'. Alternatively, set one of the aforementioned properties in 'Startup.ConfigureServices' as follows: 'services.AddExceptionHandler(options => { ... });' or configure to generate a 'ProblemDetails' response in 'service.AddProblemDetails()'.
+   at Microsoft.AspNetCore.Diagnostics.ExceptionHandlerMiddlewareImpl..ctor(RequestDelegate next, ILoggerFactory loggerFactory, IOptions`1 options, DiagnosticListener diagnosticListener, IEnumerable`1 exceptionHandlers, IMeterFactory meterFactory, IProblemDetailsService problemDetailsService)
+   at Microsoft.AspNetCore.Diagnostics.ExceptionHandlerMiddleware..ctor(RequestDelegate next, ILoggerFactory loggerFactory, IOptions`1 options, DiagnosticListener diagnosticListener)
+   at System.Reflection.ConstructorInvoker.InterpretedInvoke(Object obj, IntPtr* args)
+   at System.Reflection.ConstructorInvoker.InvokeDirectByRefWithFewArgs(Span`1 copyOfArgs)
+   at System.Reflection.ConstructorInvoker.InvokeDirectByRef(Object arg1, Object arg2, Object arg3, Object arg4)
+   at System.Reflection.ConstructorInvoker.InvokeImpl(Object arg1, Object arg2, Object arg3, Object arg4)
+   at Microsoft.Extensions.DependencyInjection.ActivatorUtilities.ConstructorMatcher.CreateInstance(IServiceProvider provider)
+   at Microsoft.Extensions.DependencyInjection.ActivatorUtilities.CreateInstance(IServiceProvider provider, Type instanceType, Object[] parameters)
+   at Microsoft.AspNetCore.Builder.UseMiddlewareExtensions.ReflectionMiddlewareBinder.CreateMiddleware(RequestDelegate next)
+   at Microsoft.AspNetCore.Builder.ApplicationBuilder.Build()
+   at Microsoft.AspNetCore.Builder.ApplicationBuilder.Build()
+   at Microsoft.AspNetCore.Hosting.GenericWebHostService.StartAsync(CancellationToken cancellationToken)
+   at Microsoft.Extensions.Hosting.Internal.Host.<StartAsync>b__14_1(IHostedService service, CancellationToken token)
+   at Microsoft.Extensions.Hosting.Internal.Host.ForeachService[T](IEnumerable`1 services, CancellationToken token, Boolean concurrent, Boolean abortOnFirstException, List`1 exceptions, Func`3 operation)
+2026-03-20 18:31:33.970 +02:00 [DBG] Registered model binder providers, in the following order: ["Microsoft.AspNetCore.Mvc.ModelBinding.Binders.BinderTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ServicesModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.BodyModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.HeaderModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.FloatingPointTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.EnumTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.DateTimeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.SimpleTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.TryParseModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.CancellationTokenModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ByteArrayModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.FormFileModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.FormCollectionModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.KeyValuePairModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.DictionaryModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ArrayModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.CollectionModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ComplexObjectModelBinderProvider"]
+2026-03-20 18:31:34.029 +02:00 [DBG] Hosting starting
+2026-03-20 18:31:34.040 +02:00 [FTL] Application startup exception
+System.InvalidOperationException: An error occurred when configuring the exception handler middleware. Either the 'ExceptionHandlingPath' or the 'ExceptionHandler' property must be set in 'UseExceptionHandler()'. Alternatively, set one of the aforementioned properties in 'Startup.ConfigureServices' as follows: 'services.AddExceptionHandler(options => { ... });' or configure to generate a 'ProblemDetails' response in 'service.AddProblemDetails()'.
+   at Microsoft.AspNetCore.Diagnostics.ExceptionHandlerMiddlewareImpl..ctor(RequestDelegate next, ILoggerFactory loggerFactory, IOptions`1 options, DiagnosticListener diagnosticListener, IEnumerable`1 exceptionHandlers, IMeterFactory meterFactory, IProblemDetailsService problemDetailsService)
+   at Microsoft.AspNetCore.Diagnostics.ExceptionHandlerMiddleware..ctor(RequestDelegate next, ILoggerFactory loggerFactory, IOptions`1 options, DiagnosticListener diagnosticListener)
+   at System.Reflection.ConstructorInvoker.InterpretedInvoke(Object obj, IntPtr* args)
+   at System.Reflection.ConstructorInvoker.InvokeDirectByRefWithFewArgs(Span`1 copyOfArgs)
+   at System.Reflection.ConstructorInvoker.InvokeDirectByRef(Object arg1, Object arg2, Object arg3, Object arg4)
+   at System.Reflection.ConstructorInvoker.InvokeImpl(Object arg1, Object arg2, Object arg3, Object arg4)
+   at Microsoft.Extensions.DependencyInjection.ActivatorUtilities.ConstructorMatcher.CreateInstance(IServiceProvider provider)
+   at Microsoft.Extensions.DependencyInjection.ActivatorUtilities.CreateInstance(IServiceProvider provider, Type instanceType, Object[] parameters)
+   at Microsoft.AspNetCore.Builder.UseMiddlewareExtensions.ReflectionMiddlewareBinder.CreateMiddleware(RequestDelegate next)
+   at Microsoft.AspNetCore.Builder.ApplicationBuilder.Build()
+   at Microsoft.AspNetCore.Builder.ApplicationBuilder.Build()
+   at Microsoft.AspNetCore.Hosting.GenericWebHostService.StartAsync(CancellationToken cancellationToken)
+2026-03-20 18:31:34.047 +02:00 [ERR] Hosting failed to start
+System.InvalidOperationException: An error occurred when configuring the exception handler middleware. Either the 'ExceptionHandlingPath' or the 'ExceptionHandler' property must be set in 'UseExceptionHandler()'. Alternatively, set one of the aforementioned properties in 'Startup.ConfigureServices' as follows: 'services.AddExceptionHandler(options => { ... });' or configure to generate a 'ProblemDetails' response in 'service.AddProblemDetails()'.
+   at Microsoft.AspNetCore.Diagnostics.ExceptionHandlerMiddlewareImpl..ctor(RequestDelegate next, ILoggerFactory loggerFactory, IOptions`1 options, DiagnosticListener diagnosticListener, IEnumerable`1 exceptionHandlers, IMeterFactory meterFactory, IProblemDetailsService problemDetailsService)
+   at Microsoft.AspNetCore.Diagnostics.ExceptionHandlerMiddleware..ctor(RequestDelegate next, ILoggerFactory loggerFactory, IOptions`1 options, DiagnosticListener diagnosticListener)
+   at System.Reflection.ConstructorInvoker.InterpretedInvoke(Object obj, IntPtr* args)
+   at System.Reflection.ConstructorInvoker.InvokeDirectByRefWithFewArgs(Span`1 copyOfArgs)
+   at System.Reflection.ConstructorInvoker.InvokeDirectByRef(Object arg1, Object arg2, Object arg3, Object arg4)
+   at System.Reflection.ConstructorInvoker.InvokeImpl(Object arg1, Object arg2, Object arg3, Object arg4)
+   at Microsoft.Extensions.DependencyInjection.ActivatorUtilities.ConstructorMatcher.CreateInstance(IServiceProvider provider)
+   at Microsoft.Extensions.DependencyInjection.ActivatorUtilities.CreateInstance(IServiceProvider provider, Type instanceType, Object[] parameters)
+   at Microsoft.AspNetCore.Builder.UseMiddlewareExtensions.ReflectionMiddlewareBinder.CreateMiddleware(RequestDelegate next)
+   at Microsoft.AspNetCore.Builder.ApplicationBuilder.Build()
+   at Microsoft.AspNetCore.Builder.ApplicationBuilder.Build()
+   at Microsoft.AspNetCore.Hosting.GenericWebHostService.StartAsync(CancellationToken cancellationToken)
+   at Microsoft.Extensions.Hosting.Internal.Host.<StartAsync>b__14_1(IHostedService service, CancellationToken token)
+   at Microsoft.Extensions.Hosting.Internal.Host.ForeachService[T](IEnumerable`1 services, CancellationToken token, Boolean concurrent, Boolean abortOnFirstException, List`1 exceptions, Func`3 operation)
+2026-03-20 18:33:05.572 +02:00 [DBG] Registered model binder providers, in the following order: ["Microsoft.AspNetCore.Mvc.ModelBinding.Binders.BinderTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ServicesModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.BodyModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.HeaderModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.FloatingPointTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.EnumTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.DateTimeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.SimpleTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.TryParseModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.CancellationTokenModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ByteArrayModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.FormFileModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.FormCollectionModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.KeyValuePairModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.DictionaryModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ArrayModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.CollectionModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ComplexObjectModelBinderProvider"]
+2026-03-20 18:33:05.621 +02:00 [DBG] Hosting starting
+2026-03-20 18:33:05.654 +02:00 [DBG] Middleware configuration started with options: {AllowedHosts = *, AllowEmptyHosts = True, IncludeFailureMessage = True}
+2026-03-20 18:33:05.655 +02:00 [DBG] Wildcard detected, all requests with hosts will be allowed.
+2026-03-20 18:33:05.664 +02:00 [DBG] No listening endpoints were configured. Binding to http://localhost:5000 by default.
+2026-03-20 18:33:05.665 +02:00 [INF] Now listening on: http://localhost:5000
+2026-03-20 18:33:05.668 +02:00 [DBG] Loaded hosting startup assembly UberMonolith.API
+2026-03-20 18:33:05.668 +02:00 [INF] Application started. Press Ctrl+C to shut down.
+2026-03-20 18:33:05.668 +02:00 [INF] Hosting environment: Production
+2026-03-20 18:33:05.668 +02:00 [INF] Content root path: /home/sandra/Sandra/Study/Projects/uber-backend/uber-backend-clone/monolith/UberMonolith.API
+2026-03-20 18:33:05.668 +02:00 [DBG] Hosting started
+2026-03-20 18:41:38.533 +02:00 [DBG] Connection id "0HNK6JU7B9EPH" accepted.
+2026-03-20 18:41:38.534 +02:00 [DBG] Connection id "0HNK6JU7B9EPI" accepted.
+2026-03-20 18:41:38.535 +02:00 [DBG] Connection id "0HNK6JU7B9EPH" started.
+2026-03-20 18:41:38.536 +02:00 [DBG] Connection id "0HNK6JU7B9EPI" started.
+2026-03-20 18:41:38.555 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/ - null null
+2026-03-20 18:41:38.567 +02:00 [DBG] No candidates found for the request path '/'
+2026-03-20 18:41:38.567 +02:00 [DBG] Request did not match any endpoints
+2026-03-20 18:41:38.571 +02:00 [WRN] Failed to determine the https port for redirect.
+2026-03-20 18:41:38.573 +02:00 [DBG] Connection id "0HNK6JU7B9EPH" completed keep alive response.
+2026-03-20 18:41:38.574 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/ - 404 0 null 20.2113ms
+2026-03-20 18:41:38.575 +02:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5000/, Response status code: 404
+2026-03-20 18:41:56.624 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/swagger/index.html - null null
+2026-03-20 18:41:56.625 +02:00 [DBG] No candidates found for the request path '/swagger/index.html'
+2026-03-20 18:41:56.626 +02:00 [DBG] Request did not match any endpoints
+2026-03-20 18:41:56.627 +02:00 [DBG] Connection id "0HNK6JU7B9EPH" completed keep alive response.
+2026-03-20 18:41:56.627 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/swagger/index.html - 404 0 null 2.8684ms
+2026-03-20 18:41:56.627 +02:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5000/swagger/index.html, Response status code: 404
+2026-03-20 18:42:00.406 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/swagger - null null
+2026-03-20 18:42:00.408 +02:00 [DBG] No candidates found for the request path '/swagger'
+2026-03-20 18:42:00.408 +02:00 [DBG] Request did not match any endpoints
+2026-03-20 18:42:00.409 +02:00 [DBG] Connection id "0HNK6JU7B9EPH" completed keep alive response.
+2026-03-20 18:42:00.409 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/swagger - 404 0 null 3.4972ms
+2026-03-20 18:42:00.409 +02:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5000/swagger, Response status code: 404
+2026-03-20 18:42:37.328 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/swagger/ - null null
+2026-03-20 18:42:37.329 +02:00 [DBG] No candidates found for the request path '/swagger/'
+2026-03-20 18:42:37.329 +02:00 [DBG] Request did not match any endpoints
+2026-03-20 18:42:37.329 +02:00 [DBG] Connection id "0HNK6JU7B9EPH" completed keep alive response.
+2026-03-20 18:42:37.329 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/swagger/ - 404 0 null 0.6264ms
+2026-03-20 18:42:37.329 +02:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5000/swagger/, Response status code: 404
+2026-03-20 18:43:49.755 +02:00 [DBG] Connection id "0HNK6JU7B9EPI" disconnecting.
+2026-03-20 18:43:49.758 +02:00 [DBG] Connection id "0HNK6JU7B9EPI" stopped.
+2026-03-20 18:43:49.764 +02:00 [DBG] Connection id "0HNK6JU7B9EPI" sending FIN because: "The Socket transport's send loop completed gracefully."
+2026-03-20 18:43:59.845 +02:00 [DBG] Connection id "0HNK6JU7B9EPH" received FIN.
+2026-03-20 18:43:59.846 +02:00 [DBG] Connection id "0HNK6JU7B9EPH" sending FIN because: "The Socket transport's send loop completed gracefully."
+2026-03-20 18:43:59.847 +02:00 [DBG] Connection id "0HNK6JU7B9EPH" disconnecting.
+2026-03-20 18:43:59.847 +02:00 [DBG] Connection id "0HNK6JU7B9EPH" stopped.
+2026-03-20 18:58:17.925 +02:00 [INF] Application is shutting down...
+2026-03-20 18:58:17.927 +02:00 [DBG] Hosting stopping
+2026-03-20 18:58:17.943 +02:00 [DBG] Hosting stopped
+2026-03-20 18:58:21.563 +02:00 [DBG] Registered model binder providers, in the following order: ["Microsoft.AspNetCore.Mvc.ModelBinding.Binders.BinderTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ServicesModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.BodyModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.HeaderModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.FloatingPointTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.EnumTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.DateTimeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.SimpleTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.TryParseModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.CancellationTokenModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ByteArrayModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.FormFileModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.FormCollectionModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.KeyValuePairModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.DictionaryModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ArrayModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.CollectionModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ComplexObjectModelBinderProvider"]
+2026-03-20 18:58:21.609 +02:00 [DBG] Hosting starting
+2026-03-20 18:58:21.629 +02:00 [DBG] Middleware configuration started with options: {AllowedHosts = *, AllowEmptyHosts = True, IncludeFailureMessage = True}
+2026-03-20 18:58:21.631 +02:00 [DBG] Wildcard detected, all requests with hosts will be allowed.
+2026-03-20 18:58:21.640 +02:00 [DBG] No listening endpoints were configured. Binding to http://localhost:5000 by default.
+2026-03-20 18:58:21.640 +02:00 [INF] Now listening on: http://localhost:5000
+2026-03-20 18:58:21.640 +02:00 [DBG] Loaded hosting startup assembly UberMonolith.API
+2026-03-20 18:58:21.640 +02:00 [INF] Application started. Press Ctrl+C to shut down.
+2026-03-20 18:58:21.640 +02:00 [INF] Hosting environment: Production
+2026-03-20 18:58:21.644 +02:00 [INF] Content root path: /home/sandra/Sandra/Study/Projects/uber-backend/uber-backend-clone/monolith/UberMonolith.API
+2026-03-20 18:58:21.644 +02:00 [DBG] Hosting started
+2026-03-20 18:58:32.749 +02:00 [DBG] Connection id "0HNK6K7LJJDS1" accepted.
+2026-03-20 18:58:32.749 +02:00 [DBG] Connection id "0HNK6K7LJJDS1" started.
+2026-03-20 18:58:32.750 +02:00 [DBG] Connection id "0HNK6K7LJJDS2" accepted.
+2026-03-20 18:58:32.750 +02:00 [DBG] Connection id "0HNK6K7LJJDS2" started.
+2026-03-20 18:58:32.769 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/swagger/ - null null
+2026-03-20 18:58:32.781 +02:00 [DBG] No candidates found for the request path '/swagger/'
+2026-03-20 18:58:32.782 +02:00 [DBG] Request did not match any endpoints
+2026-03-20 18:58:32.786 +02:00 [WRN] Failed to determine the https port for redirect.
+2026-03-20 18:58:32.788 +02:00 [DBG] Connection id "0HNK6K7LJJDS1" completed keep alive response.
+2026-03-20 18:58:32.788 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/swagger/ - 404 0 null 20.7598ms
+2026-03-20 18:58:32.789 +02:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5000/swagger/, Response status code: 404
+2026-03-20 18:59:17.910 +02:00 [INF] Application is shutting down...
+2026-03-20 18:59:17.911 +02:00 [DBG] Hosting stopping
+2026-03-20 18:59:17.925 +02:00 [DBG] Connection id "0HNK6K7LJJDS2" disconnecting.
+2026-03-20 18:59:17.925 +02:00 [DBG] Connection id "0HNK6K7LJJDS1" disconnecting.
+2026-03-20 18:59:17.926 +02:00 [DBG] Connection id "0HNK6K7LJJDS2" stopped.
+2026-03-20 18:59:17.926 +02:00 [DBG] Connection id "0HNK6K7LJJDS1" stopped.
+2026-03-20 18:59:17.928 +02:00 [DBG] Connection id "0HNK6K7LJJDS1" sending FIN because: "The Socket transport's send loop completed gracefully."
+2026-03-20 18:59:17.928 +02:00 [DBG] Connection id "0HNK6K7LJJDS2" sending FIN because: "The Socket transport's send loop completed gracefully."
+2026-03-20 18:59:17.931 +02:00 [DBG] Hosting stopped
+2026-03-20 18:59:30.515 +02:00 [DBG] Registered model binder providers, in the following order: ["Microsoft.AspNetCore.Mvc.ModelBinding.Binders.BinderTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ServicesModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.BodyModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.HeaderModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.FloatingPointTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.EnumTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.DateTimeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.SimpleTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.TryParseModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.CancellationTokenModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ByteArrayModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.FormFileModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.FormCollectionModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.KeyValuePairModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.DictionaryModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ArrayModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.CollectionModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ComplexObjectModelBinderProvider"]
+2026-03-20 18:59:30.573 +02:00 [DBG] Hosting starting
+2026-03-20 18:59:30.609 +02:00 [DBG] Middleware configuration started with options: {AllowedHosts = *, AllowEmptyHosts = True, IncludeFailureMessage = True}
+2026-03-20 18:59:30.610 +02:00 [DBG] Wildcard detected, all requests with hosts will be allowed.
+2026-03-20 18:59:30.620 +02:00 [DBG] No listening endpoints were configured. Binding to http://localhost:5000 by default.
+2026-03-20 18:59:30.620 +02:00 [INF] Now listening on: http://localhost:5000
+2026-03-20 18:59:30.621 +02:00 [DBG] Loaded hosting startup assembly UberMonolith.API
+2026-03-20 18:59:30.621 +02:00 [INF] Application started. Press Ctrl+C to shut down.
+2026-03-20 18:59:30.621 +02:00 [INF] Hosting environment: Development
+2026-03-20 18:59:30.621 +02:00 [INF] Content root path: /home/sandra/Sandra/Study/Projects/uber-backend/uber-backend-clone/monolith/UberMonolith.API
+2026-03-20 18:59:30.621 +02:00 [DBG] Hosting started
+2026-03-20 18:59:34.620 +02:00 [DBG] Connection id "0HNK6K881L9HQ" accepted.
+2026-03-20 18:59:34.621 +02:00 [DBG] Connection id "0HNK6K881L9HQ" started.
+2026-03-20 18:59:34.621 +02:00 [DBG] Connection id "0HNK6K881L9HR" accepted.
+2026-03-20 18:59:34.621 +02:00 [DBG] Connection id "0HNK6K881L9HR" started.
+2026-03-20 18:59:34.640 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/swagger/ - null null
+2026-03-20 18:59:34.652 +02:00 [DBG] No candidates found for the request path '/swagger/'
+2026-03-20 18:59:34.652 +02:00 [DBG] Request did not match any endpoints
+2026-03-20 18:59:34.666 +02:00 [DBG] Connection id "0HNK6K881L9HQ" completed keep alive response.
+2026-03-20 18:59:34.666 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/swagger/ - 301 0 null 27.879ms
+2026-03-20 18:59:34.668 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/swagger/index.html - null null
+2026-03-20 18:59:34.669 +02:00 [DBG] No candidates found for the request path '/swagger/index.html'
+2026-03-20 18:59:34.669 +02:00 [DBG] Request did not match any endpoints
+2026-03-20 18:59:34.714 +02:00 [DBG] Connection id "0HNK6K881L9HQ" completed keep alive response.
+2026-03-20 18:59:34.714 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/swagger/index.html - 200 null text/html;charset=utf-8 45.7766ms
+2026-03-20 18:59:34.723 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/swagger/swagger-ui.css - null null
+2026-03-20 18:59:34.724 +02:00 [DBG] No candidates found for the request path '/swagger/swagger-ui.css'
+2026-03-20 18:59:34.724 +02:00 [DBG] Request did not match any endpoints
+2026-03-20 18:59:34.724 +02:00 [DBG] Connection id "0HNK6K881L9HS" accepted.
+2026-03-20 18:59:34.724 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/swagger/index.css - null null
+2026-03-20 18:59:34.725 +02:00 [DBG] Connection id "0HNK6K881L9HT" accepted.
+2026-03-20 18:59:34.725 +02:00 [DBG] Connection id "0HNK6K881L9HS" started.
+2026-03-20 18:59:34.725 +02:00 [DBG] No candidates found for the request path '/swagger/index.css'
+2026-03-20 18:59:34.725 +02:00 [DBG] Request did not match any endpoints
+2026-03-20 18:59:34.725 +02:00 [DBG] Connection id "0HNK6K881L9HU" accepted.
+2026-03-20 18:59:34.725 +02:00 [DBG] Connection id "0HNK6K881L9HT" started.
+2026-03-20 18:59:34.725 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/swagger/swagger-ui-bundle.js - null null
+2026-03-20 18:59:34.725 +02:00 [DBG] No candidates found for the request path '/swagger/swagger-ui-bundle.js'
+2026-03-20 18:59:34.725 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/swagger/swagger-ui-standalone-preset.js - null null
+2026-03-20 18:59:34.725 +02:00 [DBG] Request did not match any endpoints
+2026-03-20 18:59:34.725 +02:00 [DBG] No candidates found for the request path '/swagger/swagger-ui-standalone-preset.js'
+2026-03-20 18:59:34.725 +02:00 [DBG] Request did not match any endpoints
+2026-03-20 18:59:34.725 +02:00 [DBG] Connection id "0HNK6K881L9HU" started.
+2026-03-20 18:59:34.725 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/swagger/index.js - null null
+2026-03-20 18:59:34.725 +02:00 [DBG] No candidates found for the request path '/swagger/index.js'
+2026-03-20 18:59:34.725 +02:00 [DBG] Request did not match any endpoints
+2026-03-20 18:59:34.726 +02:00 [DBG] Connection id "0HNK6K881L9HU" completed keep alive response.
+2026-03-20 18:59:34.726 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/swagger/index.js - 200 null application/javascript;charset=utf-8 0.7996ms
+2026-03-20 18:59:34.731 +02:00 [DBG] Connection id "0HNK6K881L9HR" completed keep alive response.
+2026-03-20 18:59:34.731 +02:00 [DBG] Connection id "0HNK6K881L9HQ" completed keep alive response.
+2026-03-20 18:59:34.731 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/swagger/swagger-ui.css - 200 26388 text/css 7.5937ms
+2026-03-20 18:59:34.731 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/swagger/index.css - 200 152 text/css 6.5257ms
+2026-03-20 18:59:34.742 +02:00 [DBG] Connection id "0HNK6K881L9HT" completed keep alive response.
+2026-03-20 18:59:34.742 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/swagger/swagger-ui-standalone-preset.js - 200 76581 text/javascript 16.914ms
+2026-03-20 18:59:34.742 +02:00 [DBG] Connection id "0HNK6K881L9HS" completed keep alive response.
+2026-03-20 18:59:34.742 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/swagger/swagger-ui-bundle.js - 200 417806 text/javascript 17.4001ms
+2026-03-20 18:59:34.849 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/swagger/v1/swagger.json - null null
+2026-03-20 18:59:34.849 +02:00 [DBG] No candidates found for the request path '/swagger/v1/swagger.json'
+2026-03-20 18:59:34.849 +02:00 [DBG] Request did not match any endpoints
+2026-03-20 18:59:34.855 +02:00 [DBG] Executing API description provider 'EndpointMetadataApiDescriptionProvider' from assembly Microsoft.AspNetCore.Mvc.ApiExplorer v10.0.0.0.
+2026-03-20 18:59:34.856 +02:00 [DBG] Executing API description provider 'DefaultApiDescriptionProvider' from assembly Microsoft.AspNetCore.Mvc.ApiExplorer v10.0.0.0.
+2026-03-20 18:59:34.857 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/swagger/favicon-32x32.png - null null
+2026-03-20 18:59:34.857 +02:00 [DBG] No candidates found for the request path '/swagger/favicon-32x32.png'
+2026-03-20 18:59:34.857 +02:00 [DBG] Request did not match any endpoints
+2026-03-20 18:59:34.858 +02:00 [DBG] Connection id "0HNK6K881L9HT" completed keep alive response.
+2026-03-20 18:59:34.858 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/swagger/favicon-32x32.png - 200 628 image/png 1.3395ms
+2026-03-20 18:59:34.938 +02:00 [DBG] Connection id "0HNK6K881L9HS" completed keep alive response.
+2026-03-20 18:59:34.938 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 89.0434ms
+2026-03-20 18:59:43.945 +02:00 [INF] Request starting HTTP/1.1 POST http://localhost:5000/api/Rides - application/json 244
+2026-03-20 18:59:43.948 +02:00 [DBG] 1 candidate(s) found for the request path '/api/Rides'
+2026-03-20 18:59:43.949 +02:00 [DBG] Endpoint 'UberMonolith.Controllers.RidesController.RequestNewRide (UberMonolith.API)' with route pattern 'api/Rides' is valid for the request path '/api/Rides'
+2026-03-20 18:59:43.949 +02:00 [DBG] Request matched endpoint 'UberMonolith.Controllers.RidesController.RequestNewRide (UberMonolith.API)'
+2026-03-20 18:59:43.951 +02:00 [WRN] Failed to determine the https port for redirect.
+2026-03-20 18:59:43.952 +02:00 [INF] Executing endpoint 'UberMonolith.Controllers.RidesController.RequestNewRide (UberMonolith.API)'
+2026-03-20 18:59:43.968 +02:00 [INF] Route matched with {action = "RequestNewRide", controller = "Rides"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] RequestNewRide(UberMonolith.API.Models.DTOs.RequestRideDto) on controller UberMonolith.Controllers.RidesController (UberMonolith.API).
+2026-03-20 18:59:43.970 +02:00 [DBG] Execution plan of authorization filters (in the following order): ["None"]
+2026-03-20 18:59:43.970 +02:00 [DBG] Execution plan of resource filters (in the following order): ["None"]
+2026-03-20 18:59:43.970 +02:00 [DBG] Execution plan of action filters (in the following order): ["Microsoft.AspNetCore.Mvc.ModelBinding.UnsupportedContentTypeFilter (Order: -3000)","Microsoft.AspNetCore.Mvc.Infrastructure.ModelStateInvalidFilter (Order: -2000)"]
+2026-03-20 18:59:43.970 +02:00 [DBG] Execution plan of exception filters (in the following order): ["None"]
+2026-03-20 18:59:43.970 +02:00 [DBG] Execution plan of result filters (in the following order): ["Microsoft.AspNetCore.Mvc.Infrastructure.ClientErrorResultFilter (Order: -2000)"]
+2026-03-20 18:59:43.971 +02:00 [DBG] Executing controller factory for controller UberMonolith.Controllers.RidesController (UberMonolith.API)
+2026-03-20 18:59:44.027 +02:00 [DBG] An 'IServiceProvider' was created for internal use by Entity Framework.
+2026-03-20 18:59:44.089 +02:00 [DBG] Executed controller factory for controller UberMonolith.Controllers.RidesController (UberMonolith.API)
+2026-03-20 18:59:44.092 +02:00 [DBG] Attempting to bind parameter 'rideRequestDto' of type 'UberMonolith.API.Models.DTOs.RequestRideDto' ...
+2026-03-20 18:59:44.093 +02:00 [DBG] Attempting to bind parameter 'rideRequestDto' of type 'UberMonolith.API.Models.DTOs.RequestRideDto' using the name '' in request data ...
+2026-03-20 18:59:44.093 +02:00 [DBG] Selected input formatter 'Microsoft.AspNetCore.Mvc.Formatters.SystemTextJsonInputFormatter' for content type 'application/json'.
+2026-03-20 18:59:44.102 +02:00 [DBG] Connection id "0HNK6K881L9HS", Request id "0HNK6K881L9HS:00000003": started reading request body.
+2026-03-20 18:59:44.102 +02:00 [DBG] Connection id "0HNK6K881L9HS", Request id "0HNK6K881L9HS:00000003": done reading request body.
+2026-03-20 18:59:44.109 +02:00 [DBG] JSON input formatter succeeded, deserializing to type 'UberMonolith.API.Models.DTOs.RequestRideDto'
+2026-03-20 18:59:44.109 +02:00 [DBG] Done attempting to bind parameter 'rideRequestDto' of type 'UberMonolith.API.Models.DTOs.RequestRideDto'.
+2026-03-20 18:59:44.109 +02:00 [DBG] Done attempting to bind parameter 'rideRequestDto' of type 'UberMonolith.API.Models.DTOs.RequestRideDto'.
+2026-03-20 18:59:44.109 +02:00 [DBG] Attempting to validate the bound parameter 'rideRequestDto' of type 'UberMonolith.API.Models.DTOs.RequestRideDto' ...
+2026-03-20 18:59:44.113 +02:00 [DBG] Done attempting to validate the bound parameter 'rideRequestDto' of type 'UberMonolith.API.Models.DTOs.RequestRideDto'.
+2026-03-20 18:59:44.454 +02:00 [DBG] The property 'Payment.RideId' was created in shadow state because there are no eligible CLR members with a matching name.
+2026-03-20 18:59:44.523 +02:00 [DBG] Entity Framework Core 10.0.4 initialized 'AppDbContext' using provider 'Npgsql.EntityFrameworkCore.PostgreSQL:10.0.0+7624373747b28d693b45cea8174471d4b312e2a5' with options: None
+2026-03-20 18:59:44.591 +02:00 [DBG] Context 'AppDbContext' started tracking 'Ride' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2026-03-20 18:59:44.593 +02:00 [DBG] SaveChanges starting for 'AppDbContext'.
+2026-03-20 18:59:44.595 +02:00 [DBG] DetectChanges starting for 'AppDbContext'.
+2026-03-20 18:59:44.616 +02:00 [DBG] DetectChanges completed for 'AppDbContext'.
+2026-03-20 18:59:44.692 +02:00 [DBG] Creating DbConnection.
+2026-03-20 18:59:44.712 +02:00 [DBG] Created DbConnection. (17ms).
+2026-03-20 18:59:44.714 +02:00 [DBG] Opening connection to database 'uber-monolith' on server 'tcp://localhost:5432'.
+2026-03-20 18:59:44.761 +02:00 [ERR] An error occurred using the connection to database 'uber-monolith' on server 'tcp://localhost:5432'.
+2026-03-20 18:59:44.775 +02:00 [ERR] An exception occurred in the database while saving changes for context type 'UberMonolith.API.Infrastructure.Data.AppDbContext'.
+Npgsql.NpgsqlException (0x80004005): No password has been provided but the backend requires one (in SASL/SCRAM-SHA-256)
+   at Npgsql.Internal.NpgsqlConnector.AuthenticateSASL(List`1 mechanisms, String username, Boolean async, CancellationToken cancellationToken)
+   at Npgsql.Internal.NpgsqlConnector.Authenticate(String username, NpgsqlTimeout timeout, Boolean async, CancellationToken cancellationToken)
+   at Npgsql.Internal.NpgsqlConnector.<Open>g__OpenCore|209_0(NpgsqlConnector conn, String username, SslMode sslMode, GssEncryptionMode gssEncMode, NpgsqlTimeout timeout, Boolean async, CancellationToken cancellationToken)
+   at Npgsql.Internal.NpgsqlConnector.<Open>g__OpenCore|209_0(NpgsqlConnector conn, String username, SslMode sslMode, GssEncryptionMode gssEncMode, NpgsqlTimeout timeout, Boolean async, CancellationToken cancellationToken)
+   at Npgsql.Internal.NpgsqlConnector.Open(NpgsqlTimeout timeout, Boolean async, CancellationToken cancellationToken)
+   at Npgsql.PoolingDataSource.OpenNewConnector(NpgsqlConnection conn, NpgsqlTimeout timeout, Boolean async, CancellationToken cancellationToken)
+   at Npgsql.PoolingDataSource.<Get>g__RentAsync|33_0(NpgsqlConnection conn, NpgsqlTimeout timeout, Boolean async, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlConnection.<Open>g__OpenAsync|42_0(Boolean async, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.OpenInternalAsync(Boolean errorsExpected, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.OpenInternalAsync(Boolean errorsExpected, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.OpenAsync(CancellationToken cancellationToken, Boolean errorsExpected)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalDatabase.SaveChangesAsync(IList`1 entries, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(IList`1 entriesToSave, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(StateManager stateManager, Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Npgsql.EntityFrameworkCore.PostgreSQL.Storage.Internal.NpgsqlExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+Npgsql.NpgsqlException (0x80004005): No password has been provided but the backend requires one (in SASL/SCRAM-SHA-256)
+   at Npgsql.Internal.NpgsqlConnector.AuthenticateSASL(List`1 mechanisms, String username, Boolean async, CancellationToken cancellationToken)
+   at Npgsql.Internal.NpgsqlConnector.Authenticate(String username, NpgsqlTimeout timeout, Boolean async, CancellationToken cancellationToken)
+   at Npgsql.Internal.NpgsqlConnector.<Open>g__OpenCore|209_0(NpgsqlConnector conn, String username, SslMode sslMode, GssEncryptionMode gssEncMode, NpgsqlTimeout timeout, Boolean async, CancellationToken cancellationToken)
+   at Npgsql.Internal.NpgsqlConnector.<Open>g__OpenCore|209_0(NpgsqlConnector conn, String username, SslMode sslMode, GssEncryptionMode gssEncMode, NpgsqlTimeout timeout, Boolean async, CancellationToken cancellationToken)
+   at Npgsql.Internal.NpgsqlConnector.Open(NpgsqlTimeout timeout, Boolean async, CancellationToken cancellationToken)
+   at Npgsql.PoolingDataSource.OpenNewConnector(NpgsqlConnection conn, NpgsqlTimeout timeout, Boolean async, CancellationToken cancellationToken)
+   at Npgsql.PoolingDataSource.<Get>g__RentAsync|33_0(NpgsqlConnection conn, NpgsqlTimeout timeout, Boolean async, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlConnection.<Open>g__OpenAsync|42_0(Boolean async, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.OpenInternalAsync(Boolean errorsExpected, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.OpenInternalAsync(Boolean errorsExpected, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.OpenAsync(CancellationToken cancellationToken, Boolean errorsExpected)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalDatabase.SaveChangesAsync(IList`1 entries, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(IList`1 entriesToSave, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(StateManager stateManager, Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Npgsql.EntityFrameworkCore.PostgreSQL.Storage.Internal.NpgsqlExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+2026-03-20 18:59:44.782 +02:00 [INF] Executed action UberMonolith.Controllers.RidesController.RequestNewRide (UberMonolith.API) in 809.1858ms
+2026-03-20 18:59:44.782 +02:00 [INF] Executed endpoint 'UberMonolith.Controllers.RidesController.RequestNewRide (UberMonolith.API)'
+2026-03-20 18:59:44.783 +02:00 [ERR] abff5b8e-37f1-4ea7-9a6f-34f430e1dc5e:No password has been provided but the backend requires one (in SASL/SCRAM-SHA-256)
+Npgsql.NpgsqlException (0x80004005): No password has been provided but the backend requires one (in SASL/SCRAM-SHA-256)
+   at Npgsql.Internal.NpgsqlConnector.AuthenticateSASL(List`1 mechanisms, String username, Boolean async, CancellationToken cancellationToken)
+   at Npgsql.Internal.NpgsqlConnector.Authenticate(String username, NpgsqlTimeout timeout, Boolean async, CancellationToken cancellationToken)
+   at Npgsql.Internal.NpgsqlConnector.<Open>g__OpenCore|209_0(NpgsqlConnector conn, String username, SslMode sslMode, GssEncryptionMode gssEncMode, NpgsqlTimeout timeout, Boolean async, CancellationToken cancellationToken)
+   at Npgsql.Internal.NpgsqlConnector.<Open>g__OpenCore|209_0(NpgsqlConnector conn, String username, SslMode sslMode, GssEncryptionMode gssEncMode, NpgsqlTimeout timeout, Boolean async, CancellationToken cancellationToken)
+   at Npgsql.Internal.NpgsqlConnector.Open(NpgsqlTimeout timeout, Boolean async, CancellationToken cancellationToken)
+   at Npgsql.PoolingDataSource.OpenNewConnector(NpgsqlConnection conn, NpgsqlTimeout timeout, Boolean async, CancellationToken cancellationToken)
+   at Npgsql.PoolingDataSource.<Get>g__RentAsync|33_0(NpgsqlConnection conn, NpgsqlTimeout timeout, Boolean async, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlConnection.<Open>g__OpenAsync|42_0(Boolean async, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.OpenInternalAsync(Boolean errorsExpected, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.OpenInternalAsync(Boolean errorsExpected, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.OpenAsync(CancellationToken cancellationToken, Boolean errorsExpected)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalDatabase.SaveChangesAsync(IList`1 entries, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(IList`1 entriesToSave, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(StateManager stateManager, Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Npgsql.EntityFrameworkCore.PostgreSQL.Storage.Internal.NpgsqlExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at UberMonolith.API.Repositories.RideRepository.RequestNewRide(Ride ride) in /home/sandra/Sandra/Study/Projects/uber-backend/uber-backend-clone/monolith/UberMonolith.API/Repositories/RideRepository.cs:line 17
+   at UberMonolith.Controllers.RidesController.RequestNewRide(RequestRideDto rideRequestDto) in /home/sandra/Sandra/Study/Projects/uber-backend/uber-backend-clone/monolith/UberMonolith.API/Controllers/RidesController.cs:line 37
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfIActionResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at UberMonolith.API.ExceptionHandlerMiddleware.InvokeAsync(HttpContext httpContext) in /home/sandra/Sandra/Study/Projects/uber-backend/uber-backend-clone/monolith/UberMonolith.API/Middlewares/ExceptionHandlerMiddleware.cs:line 19
+2026-03-20 18:59:44.794 +02:00 [DBG] Connection id "0HNK6K881L9HS" completed keep alive response.
+2026-03-20 18:59:44.795 +02:00 [DBG] 'AppDbContext' disposed.
+2026-03-20 18:59:44.798 +02:00 [DBG] Disposing connection to database 'uber-monolith' on server 'tcp://localhost:5432'.
+2026-03-20 18:59:44.802 +02:00 [DBG] Disposed connection to database 'uber-monolith' on server 'tcp://localhost:5432' (1ms).
+2026-03-20 18:59:44.802 +02:00 [INF] Request finished HTTP/1.1 POST http://localhost:5000/api/Rides - 500 null application/json; charset=utf-8 857.5528ms
+2026-03-20 19:01:45.638 +02:00 [DBG] Connection id "0HNK6K881L9HQ" disconnecting.
+2026-03-20 19:01:45.638 +02:00 [DBG] Connection id "0HNK6K881L9HR" disconnecting.
+2026-03-20 19:01:45.640 +02:00 [DBG] Connection id "0HNK6K881L9HQ" stopped.
+2026-03-20 19:01:45.640 +02:00 [DBG] Connection id "0HNK6K881L9HR" stopped.
+2026-03-20 19:01:45.641 +02:00 [DBG] Connection id "0HNK6K881L9HQ" sending FIN because: "The Socket transport's send loop completed gracefully."
+2026-03-20 19:01:45.641 +02:00 [DBG] Connection id "0HNK6K881L9HR" sending FIN because: "The Socket transport's send loop completed gracefully."
+2026-03-20 19:01:46.636 +02:00 [DBG] Connection id "0HNK6K881L9HT" disconnecting.
+2026-03-20 19:01:46.636 +02:00 [DBG] Connection id "0HNK6K881L9HU" disconnecting.
+2026-03-20 19:01:46.636 +02:00 [DBG] Connection id "0HNK6K881L9HT" stopped.
+2026-03-20 19:01:46.636 +02:00 [DBG] Connection id "0HNK6K881L9HU" stopped.
+2026-03-20 19:01:46.637 +02:00 [DBG] Connection id "0HNK6K881L9HU" sending FIN because: "The Socket transport's send loop completed gracefully."
+2026-03-20 19:01:46.637 +02:00 [DBG] Connection id "0HNK6K881L9HT" sending FIN because: "The Socket transport's send loop completed gracefully."
+2026-03-20 19:01:55.637 +02:00 [DBG] Connection id "0HNK6K881L9HS" disconnecting.
+2026-03-20 19:01:55.638 +02:00 [DBG] Connection id "0HNK6K881L9HS" stopped.
+2026-03-20 19:01:55.638 +02:00 [DBG] Connection id "0HNK6K881L9HS" sending FIN because: "The Socket transport's send loop completed gracefully."
+2026-03-20 21:11:41.954 +02:00 [INF] Application is shutting down...
+2026-03-20 21:11:41.955 +02:00 [DBG] Hosting stopping
+2026-03-20 21:11:41.959 +02:00 [DBG] Hosting stopped
+2026-03-20 21:29:28.327 +02:00 [DBG] Registered model binder providers, in the following order: ["Microsoft.AspNetCore.Mvc.ModelBinding.Binders.BinderTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ServicesModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.BodyModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.HeaderModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.FloatingPointTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.EnumTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.DateTimeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.SimpleTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.TryParseModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.CancellationTokenModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ByteArrayModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.FormFileModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.FormCollectionModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.KeyValuePairModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.DictionaryModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ArrayModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.CollectionModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ComplexObjectModelBinderProvider"]
+2026-03-20 21:29:28.392 +02:00 [DBG] Hosting starting
+2026-03-20 21:29:28.430 +02:00 [DBG] Middleware configuration started with options: {AllowedHosts = *, AllowEmptyHosts = True, IncludeFailureMessage = True}
+2026-03-20 21:29:28.432 +02:00 [DBG] Wildcard detected, all requests with hosts will be allowed.
+2026-03-20 21:29:28.440 +02:00 [DBG] No listening endpoints were configured. Binding to http://localhost:5000 by default.
+2026-03-20 21:29:28.441 +02:00 [INF] Now listening on: http://localhost:5000
+2026-03-20 21:29:28.441 +02:00 [DBG] Loaded hosting startup assembly UberMonolith.API
+2026-03-20 21:29:28.441 +02:00 [INF] Application started. Press Ctrl+C to shut down.
+2026-03-20 21:29:28.441 +02:00 [INF] Hosting environment: Development
+2026-03-20 21:29:28.441 +02:00 [INF] Content root path: /home/sandra/Sandra/Study/Projects/uber-backend/uber-backend-clone/monolith/UberMonolith.API
+2026-03-20 21:29:28.441 +02:00 [DBG] Hosting started
+2026-03-20 21:29:37.449 +02:00 [INF] Application is shutting down...
+2026-03-20 21:29:37.450 +02:00 [DBG] Hosting stopping
+2026-03-20 21:29:37.459 +02:00 [DBG] Hosting stopped

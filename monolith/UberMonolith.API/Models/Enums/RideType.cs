@@ -1,4 +1,4 @@
-﻿namespace UberMonolith.Models.Enums;
+﻿namespace UberMonolith.API.Models.Enums;
 
 public enum RideType
 {
