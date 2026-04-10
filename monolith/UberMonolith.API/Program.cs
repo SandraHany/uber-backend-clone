@@ -12,7 +12,6 @@ using OpenTelemetry.Metrics;
 using Serilog.Sinks.Grafana.Loki;
 using Confluent.Kafka;
 
-
 var builder = WebApplication.CreateBuilder(args);
 var connectionString =
     builder.Configuration.GetConnectionString("PostgreSqlConnection")
@@ -57,12 +56,19 @@ builder.Services.AddScoped(c => c.GetRequiredService<IConnectionMultiplexer>().G
 builder.Services.AddScoped<IRideService, RideService>();
 builder.Services.AddScoped<IDriverService, DriverService>();
 builder.Services.AddKafkaProducer(builder.Configuration);
+
 builder.Services.AddSingleton<IProducer<string, string>>(sp =>
 {
     var config = sp.GetRequiredService<ProducerConfig>();
     return new ProducerBuilder<string, string>(config).Build();
 });
-
+builder.Services.AddKafkaConsumer(builder.Configuration);
+builder.Services.AddSingleton<IConsumer<string, string>>(sp =>
+{
+    var config = sp.GetRequiredService<ConsumerConfig>();
+    return new ConsumerBuilder<string, string>(config).Build();
+});
+ builder.Services.AddHostedService<TripRequestedConsumer>();
 
 
 
