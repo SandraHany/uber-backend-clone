@@ -13,10 +13,12 @@ namespace UberMonolith.API.Controllers;
 public class RidesController : ControllerBase
 {
     private readonly IRideRepository _rideRepository;
+    private readonly IRideService _rideService;
     private readonly IMapper _mapper;
-    public RidesController(IRideRepository rideRepository, IMapper mapper)
+    public RidesController(IRideRepository rideRepository, IRideService rideService, IMapper mapper)
     {
         _rideRepository = rideRepository;
+        _rideService = rideService;
         _mapper = mapper;
     }
     [HttpGet]
@@ -34,7 +36,7 @@ public class RidesController : ControllerBase
     public async Task<IActionResult> RequestNewRide(RequestRideDto rideRequestDto)
     {
         var rideModel = _mapper.Map<Ride>(rideRequestDto);
-        var newRide = await _rideRepository.RequestNewRide(rideModel);
+        var newRide = await _rideService.RequestNewRide(rideModel);
         var rideDto = _mapper.Map<RideDto>(newRide);
         return CreatedAtAction(nameof(GetRide), new { id = rideDto.Id }, rideDto);
     }

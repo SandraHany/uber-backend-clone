@@ -10,6 +10,9 @@ using OpenTelemetry.Trace;
 using OpenTelemetry.Logs;
 using OpenTelemetry.Metrics;
 using Serilog.Sinks.Grafana.Loki;
+using Confluent.Kafka;
+
+
 var builder = WebApplication.CreateBuilder(args);
 var connectionString =
     builder.Configuration.GetConnectionString("PostgreSqlConnection")
@@ -51,6 +54,18 @@ builder.Services.AddScoped<IRideRepository, RideRepository>();
 builder.Services.AddScoped<IDriverRepository,DriverRepository>();
 builder.Services.AddSingleton<IConnectionMultiplexer>(ConnectionMultiplexer.Connect(builder.Configuration.GetConnectionString("RedisConnection")));
 builder.Services.AddScoped(c => c.GetRequiredService<IConnectionMultiplexer>().GetDatabase());
+builder.Services.AddScoped<IRideService, RideService>();
+builder.Services.AddScoped<IDriverService, DriverService>();
+builder.Services.AddKafkaProducer(builder.Configuration);
+builder.Services.AddSingleton<IProducer<string, string>>(sp =>
+{
+    var config = sp.GetRequiredService<ProducerConfig>();
+    return new ProducerBuilder<string, string>(config).Build();
+});
+
+
+
+
 var otel = builder.Services.AddOpenTelemetry();
 
 // Configure OpenTelemetry Resources with the application name
@@ -96,4 +111,12 @@ app.UseAuthorization();
 app.MapControllers();
 // Configure the Prometheus scraping endpoint
 app.MapPrometheusScrapingEndpoint();
+
+var lifetime = app.Services.GetRequiredService<IHostApplicationLifetime>();
+lifetime.ApplicationStopping.Register(() =>
+{
+    var producer = app.Services.GetRequiredService<IProducer<string, string>>();
+    producer.Flush(TimeSpan.FromSeconds(10)); 
+    producer.Dispose();
+});
 app.Run();
