@@ -1667,3 +1667,66 @@ VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11, @p12, @p13
 2026-04-11 01:21:40.728 +02:00 [DBG] Connection id "0HNKNAVH37J30" stopped.
 2026-04-11 01:21:40.730 +02:00 [DBG] Connection id "0HNKNAVH37J30" sending FIN because: "The Socket transport's send loop completed gracefully."
 2026-04-11 01:21:40.774 +02:00 [DBG] Hosting stopped
+2026-04-11 03:43:33.498 +02:00 [DBG] Registered SignalR Protocol: json, implemented by Microsoft.AspNetCore.SignalR.Protocol.JsonHubProtocol.
+2026-04-11 03:43:33.548 +02:00 [DBG] Registered model binder providers, in the following order: ["Microsoft.AspNetCore.Mvc.ModelBinding.Binders.BinderTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ServicesModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.BodyModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.HeaderModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.FloatingPointTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.EnumTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.DateTimeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.SimpleTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.TryParseModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.CancellationTokenModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ByteArrayModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.FormFileModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.FormCollectionModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.KeyValuePairModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.DictionaryModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ArrayModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.CollectionModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ComplexObjectModelBinderProvider"]
+2026-04-11 03:43:33.610 +02:00 [DBG] Hosting starting
+2026-04-11 03:43:33.709 +02:00 [INF] Consuming messages from 'trip-requested' topic...
+2026-04-11 03:43:33.741 +02:00 [DBG] Middleware configuration started with options: {AllowedHosts = *, AllowEmptyHosts = True, IncludeFailureMessage = True}
+2026-04-11 03:43:33.743 +02:00 [DBG] Wildcard detected, all requests with hosts will be allowed.
+2026-04-11 03:43:33.748 +02:00 [WRN] Overriding address(es) 'http://localhost:5000'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead.
+2026-04-11 03:43:33.752 +02:00 [INF] Now listening on: http://0.0.0.0:5000
+2026-04-11 03:43:33.752 +02:00 [DBG] Loaded hosting startup assembly UberMonolith.API
+2026-04-11 03:43:33.752 +02:00 [INF] Application started. Press Ctrl+C to shut down.
+2026-04-11 03:43:33.752 +02:00 [INF] Hosting environment: Development
+2026-04-11 03:43:33.752 +02:00 [INF] Content root path: /home/sandra/Sandra/Study/Projects/uber-backend/uber-backend-clone/monolith/UberMonolith.API
+2026-04-11 03:43:33.753 +02:00 [VRB] Starting connection heartbeat.
+2026-04-11 03:43:33.754 +02:00 [DBG] Hosting started
+2026-04-11 03:43:39.624 +02:00 [DBG] Connection id "0HNKNDF0NC59K" accepted.
+2026-04-11 03:43:39.625 +02:00 [DBG] Connection id "0HNKNDF0NC59K" started.
+2026-04-11 03:43:39.655 +02:00 [INF] Request starting HTTP/1.1 GET http://172.17.0.1:5000/metrics - null null
+2026-04-11 03:43:39.656 +02:00 [VRB] All hosts are allowed.
+2026-04-11 03:43:39.672 +02:00 [DBG] 1 candidate(s) found for the request path '/metrics'
+2026-04-11 03:43:39.672 +02:00 [DBG] Request matched endpoint '/metrics'
+2026-04-11 03:43:39.673 +02:00 [VRB] The endpoint does not specify the IRequestSizeLimitMetadata.
+2026-04-11 03:43:39.689 +02:00 [WRN] Failed to determine the https port for redirect.
+2026-04-11 03:43:39.690 +02:00 [INF] Executing endpoint '/metrics'
+2026-04-11 03:43:39.705 +02:00 [INF] Executed endpoint '/metrics'
+2026-04-11 03:43:39.706 +02:00 [DBG] Connection id "0HNKNDF0NC59K" completed keep alive response.
+2026-04-11 03:43:39.706 +02:00 [INF] Request finished HTTP/1.1 GET http://172.17.0.1:5000/metrics - 200 null application/openmetrics-text; version=1.0.0; charset=utf-8 59.2703ms
+2026-04-11 03:43:54.610 +02:00 [INF] Request starting HTTP/1.1 GET http://172.17.0.1:5000/metrics - null null
+2026-04-11 03:43:54.611 +02:00 [VRB] All hosts are allowed.
+2026-04-11 03:43:54.612 +02:00 [DBG] 1 candidate(s) found for the request path '/metrics'
+2026-04-11 03:43:54.612 +02:00 [DBG] Request matched endpoint '/metrics'
+2026-04-11 03:43:54.612 +02:00 [VRB] The endpoint does not specify the IRequestSizeLimitMetadata.
+2026-04-11 03:43:54.613 +02:00 [INF] Executing endpoint '/metrics'
+2026-04-11 03:43:54.614 +02:00 [INF] Executed endpoint '/metrics'
+2026-04-11 03:43:54.614 +02:00 [DBG] Connection id "0HNKNDF0NC59K" completed keep alive response.
+2026-04-11 03:43:54.614 +02:00 [INF] Request finished HTTP/1.1 GET http://172.17.0.1:5000/metrics - 200 null application/openmetrics-text; version=1.0.0; charset=utf-8 4.5265ms
+2026-04-11 03:44:09.609 +02:00 [INF] Request starting HTTP/1.1 GET http://172.17.0.1:5000/metrics - null null
+2026-04-11 03:44:09.610 +02:00 [VRB] All hosts are allowed.
+2026-04-11 03:44:09.610 +02:00 [DBG] 1 candidate(s) found for the request path '/metrics'
+2026-04-11 03:44:09.610 +02:00 [DBG] Request matched endpoint '/metrics'
+2026-04-11 03:44:09.610 +02:00 [VRB] The endpoint does not specify the IRequestSizeLimitMetadata.
+2026-04-11 03:44:09.615 +02:00 [INF] Executing endpoint '/metrics'
+2026-04-11 03:44:09.617 +02:00 [INF] Executed endpoint '/metrics'
+2026-04-11 03:44:09.618 +02:00 [DBG] Connection id "0HNKNDF0NC59K" completed keep alive response.
+2026-04-11 03:44:09.618 +02:00 [INF] Request finished HTTP/1.1 GET http://172.17.0.1:5000/metrics - 200 null application/openmetrics-text; version=1.0.0; charset=utf-8 8.5804ms
+2026-04-11 03:44:16.126 +02:00 [INF] Application is shutting down...
+2026-04-11 03:44:16.127 +02:00 [DBG] Hosting stopping
+2026-04-11 03:44:16.251 +02:00 [VRB] Ending connection heartbeat.
+2026-04-11 03:44:16.254 +02:00 [ERR] BackgroundService failed
+System.ObjectDisposedException: handle is destroyed
+   at Confluent.Kafka.Consumer`2.Consume(Int32 millisecondsTimeout)
+   at Confluent.Kafka.Consumer`2.Consume(CancellationToken cancellationToken)
+   at UberMonolith.API.TripRequestedConsumer.ExecuteAsync(CancellationToken stoppingToken) in /home/sandra/Sandra/Study/Projects/uber-backend/uber-backend-clone/monolith/UberMonolith.API/BackgroundServices/TripRequestedConsumer.cs:line 26
+   at Microsoft.Extensions.Hosting.Internal.Host.TryExecuteBackgroundServiceAsync(BackgroundService backgroundService)
+2026-04-11 03:44:16.267 +02:00 [DBG] Connection id "0HNKNDF0NC59K" disconnecting.
+2026-04-11 03:44:16.272 +02:00 [FTL] The HostOptions.BackgroundServiceExceptionBehavior is configured to StopHost. A BackgroundService has thrown an unhandled exception, and the IHost instance is stopping. To avoid this behavior, configure this to Ignore; however the BackgroundService will not be restarted.
+System.ObjectDisposedException: handle is destroyed
+   at Confluent.Kafka.Consumer`2.Consume(Int32 millisecondsTimeout)
+   at Confluent.Kafka.Consumer`2.Consume(CancellationToken cancellationToken)
+   at UberMonolith.API.TripRequestedConsumer.ExecuteAsync(CancellationToken stoppingToken) in /home/sandra/Sandra/Study/Projects/uber-backend/uber-backend-clone/monolith/UberMonolith.API/BackgroundServices/TripRequestedConsumer.cs:line 26
+   at Microsoft.Extensions.Hosting.Internal.Host.TryExecuteBackgroundServiceAsync(BackgroundService backgroundService)
+2026-04-11 03:44:16.272 +02:00 [DBG] Connection id "0HNKNDF0NC59K" stopped.
+2026-04-11 03:44:16.273 +02:00 [DBG] Connection id "0HNKNDF0NC59K" sending FIN because: "The Socket transport's send loop completed gracefully."
+2026-04-11 03:44:16.277 +02:00 [DBG] Hosting stopped

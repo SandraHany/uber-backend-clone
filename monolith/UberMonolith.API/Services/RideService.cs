@@ -21,7 +21,6 @@ public class RideService : IRideService
     {
         var message = new Message<string, string>
         {
-            Key = request.RiderId.ToString(),
             Value = JsonSerializer.Serialize(request)
         };
         try
@@ -43,4 +42,9 @@ public class RideService : IRideService
         var response = await _rideRepository.RequestNewRide(request);
         return response;
     }
+    public Task<List<NearbyDriverDto>> GetNearbyDrivers(double latitude, double longitude, double radiusKm)
+    {
+        return _rideRepository.GetNearbyDrivers(latitude, longitude, radiusKm);
+    }
+
 }

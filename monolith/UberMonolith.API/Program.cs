@@ -56,6 +56,7 @@ builder.Services.AddScoped(c => c.GetRequiredService<IConnectionMultiplexer>().G
 builder.Services.AddScoped<IRideService, RideService>();
 builder.Services.AddScoped<IDriverService, DriverService>();
 builder.Services.AddKafkaProducer(builder.Configuration);
+builder.Services.AddSignalR();
 
 builder.Services.AddSingleton<IProducer<string, string>>(sp =>
 {
@@ -109,7 +110,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 app.UseMiddleware<UberMonolith.API.ExceptionHandlerMiddleware>();
-
+app.MapHub<TripHub>("/tripHub");
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
@@ -122,7 +123,9 @@ var lifetime = app.Services.GetRequiredService<IHostApplicationLifetime>();
 lifetime.ApplicationStopping.Register(() =>
 {
     var producer = app.Services.GetRequiredService<IProducer<string, string>>();
+    var consumer = app.Services.GetRequiredService<IConsumer<string, string>>();
     producer.Flush(TimeSpan.FromSeconds(10)); 
     producer.Dispose();
+    consumer.Close();
 });
 app.Run();

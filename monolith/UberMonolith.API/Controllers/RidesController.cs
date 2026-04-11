@@ -44,7 +44,7 @@ public class RidesController : ControllerBase
     [Route("nearby-drivers")]
     public async Task<ActionResult<List<NearbyDriverDto>>> GetNearbyDrivers(double latitude, double longitude, int radiusKm = 3)
     {
-        var nearbyDrivers = await _rideRepository.GetNearbyDrivers(latitude, longitude, radiusKm);
+        var nearbyDrivers = await _rideService.GetNearbyDrivers(latitude, longitude, radiusKm);
         return Ok(nearbyDrivers);
     }
 }
