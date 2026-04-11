@@ -7587,3 +7587,17 @@ System.ObjectDisposedException: handle is destroyed
 2026-04-11 23:21:14.723 +02:00 [DBG] Connection id "0HNKO20C28NUV" stopped.
 2026-04-11 23:21:14.723 +02:00 [DBG] Connection id "0HNKO20C28NUV" sending FIN because: "The Socket transport's send loop completed gracefully."
 2026-04-11 23:21:14.724 +02:00 [DBG] Connection id "0HNKO20C28NUR" sending FIN because: "The Socket transport's send loop completed gracefully."
+2026-04-11 23:21:44.587 +02:00 [DBG] Some connections failed to close gracefully during server shutdown.
+2026-04-11 23:21:44.588 +02:00 [DBG] Connection id "0HNKO20C28NV0" sending RST because: "The connection was aborted because the server is shutting down and request processing didn't complete within the time specified by HostOptions.ShutdownTimeout."
+2026-04-11 23:21:44.589 +02:00 [DBG] Waiting for the application to finish sending data.
+2026-04-11 23:21:44.589 +02:00 [DBG] Connection id "0HNKO20C28NV0" disconnecting.
+2026-04-11 23:21:44.591 +02:00 [DBG] Socket closed.
+2026-04-11 23:21:44.591 +02:00 [VRB] Disposing connection NBAyKkNf1bR58Tc10FoRww.
+2026-04-11 23:21:44.592 +02:00 [VRB] Waiting for application to complete.
+2026-04-11 23:21:44.597 +02:00 [DBG] OnConnectedAsync ending.
+2026-04-11 23:21:44.597 +02:00 [VRB] Application complete.
+2026-04-11 23:21:44.597 +02:00 [DBG] Removing connection NBAyKkNf1bR58Tc10FoRww from the list of connections.
+2026-04-11 23:21:44.597 +02:00 [INF] Executed endpoint '/tripHub'
+2026-04-11 23:21:44.597 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/tripHub?id=J589CdiIf79DBKC0M-_cqQ - 101 null null 29880.2537ms
+2026-04-11 23:21:44.598 +02:00 [DBG] Connection id "0HNKO20C28NV0" stopped.
+2026-04-11 23:21:44.605 +02:00 [DBG] Hosting stopped

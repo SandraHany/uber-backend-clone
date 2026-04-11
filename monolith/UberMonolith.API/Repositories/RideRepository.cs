@@ -55,6 +55,10 @@ public class RideRepository : IRideRepository
     {
         _context.Rides.Add(ride);
         await _context.SaveChangesAsync();
+        DiagnosticsConfig.TripRequestsCounter.Add(
+            1,
+            new KeyValuePair<string, object?> ("rider.id",ride.RiderId)
+        );
         return ride;
     }
 

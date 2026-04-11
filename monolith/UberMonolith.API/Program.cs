@@ -18,21 +18,10 @@ var connectionString =
         ?? throw new InvalidOperationException("Connection string"
         + "'PostgreSqlConnection' not found.");
 
-var logger = new LoggerConfiguration()
-    .MinimumLevel.Verbose()
-    .WriteTo.File("Logs/log-.txt", rollingInterval: RollingInterval.Day)
-    .WriteTo.GrafanaLoki(
-        "http://localhost:3100",
-        labels: new List<LokiLabel>
-        {
-            new() { Key = "app",     Value = "uber-backend" },
-            new() { Key = "env",     Value = builder.Environment.EnvironmentName }
-        })
-    .Enrich.FromLogContext()
-    .CreateLogger();
 
 builder.Logging.ClearProviders();
-builder.Logging.AddSerilog(logger);
+
+
 builder.WebHost.ConfigureKestrel(options =>
 {
     options.Listen(System.Net.IPAddress.Any, 5000);
@@ -80,34 +69,27 @@ builder.Services.AddSingleton<IConsumer<string, string>>(sp =>
     return new ConsumerBuilder<string, string>(config).Build();
 });
  builder.Services.AddHostedService<TripRequestedConsumer>();
-
-
-
-var otel = builder.Services.AddOpenTelemetry();
-
-// Configure OpenTelemetry Resources with the application name
-otel.ConfigureResource(resource => resource
-    .AddService(serviceName: builder.Environment.ApplicationName));
-
-// Add Metrics for ASP.NET Core and our custom metrics and export to Prometheus
-otel.WithMetrics(metrics => metrics
-    // Metrics provider from OpenTelemetry
-    .AddAspNetCoreInstrumentation()
-    // Metrics provides by ASP.NET Core in .NET 8
-    .AddMeter("Microsoft.AspNetCore.Hosting")
-    .AddMeter("Microsoft.AspNetCore.Server.Kestrel")
-    // Metrics provided by System.Net libraries
-    .AddMeter("System.Net.Http")
-    .AddMeter("System.Net.NameResolution")
-    .AddPrometheusExporter());
-otel.WithTracing(tracing => tracing
-    .AddAspNetCoreInstrumentation()
-    .AddEntityFrameworkCoreInstrumentation()  
-    .AddRedisInstrumentation()                
-    .AddOtlpExporter(opts =>
+builder.Services.AddOpenTelemetry()
+    .ConfigureResource(resource=> resource.AddService(DiagnosticsConfig.ServiceName))
+    .WithMetrics(metrics =>
     {
-        opts.Endpoint = new Uri("http://localhost:4317"); 
-    }));   
+        metrics
+            .AddAspNetCoreInstrumentation()
+            .AddHttpClientInstrumentation();
+        metrics.AddMeter(DiagnosticsConfig.Meter.Name);
+        metrics.AddOtlpExporter(options => options.Endpoint = new Uri("http://localhost:4317"));
+    })
+    .WithTracing( tracing =>
+    {   tracing
+            .AddAspNetCoreInstrumentation()
+            .AddHttpClientInstrumentation()
+            .AddEntityFrameworkCoreInstrumentation();
+
+        tracing.AddOtlpExporter(options => options.Endpoint = new Uri("http://localhost:4317"));
+    });
+
+
+
 
                   
 var app = builder.Build();
@@ -127,8 +109,7 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
-// Configure the Prometheus scraping endpoint
-app.MapPrometheusScrapingEndpoint();
+
 
 var lifetime = app.Services.GetRequiredService<IHostApplicationLifetime>();
 lifetime.ApplicationStopping.Register(() =>

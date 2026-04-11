@@ -35,6 +35,7 @@ public class RidesController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> RequestNewRide(RequestRideDto rideRequestDto)
     {
+        
         var rideModel = _mapper.Map<Ride>(rideRequestDto);
         var newRide = await _rideService.RequestNewRide(rideModel);
         var rideDto = _mapper.Map<RideDto>(newRide);
