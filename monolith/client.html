@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/9.0.6/signalr.min.js" integrity="sha512-kkMt8UThSmWcdXLYFaGZ/U6vyWSNLZMUWQ5SMeF80pGqrEkH5ei9D/3MbVQpB8p7D5C3A4vlX7BpsWTT2BfB6A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    </head>
+    <body>
+        <button type="button" onclick = "acceptTrip()">Accept Trip</button>
+        <button type="button" onclick = "startTrip()">Start Trip</button>
+        <script>
+            let connection;
+            function setupSignalRConnection(){
+                connection = new signalR.HubConnectionBuilder()
+                    .withUrl("http://localhost:5000/tripHub")
+                    .withAutomaticReconnect()
+                    .build();
+                connection.on("ReceiveRideRequest", function(rideRequest) {
+                    console.log("Received ride request:", rideRequest);
+                    alert("New ride request received!"+"\nPickup: " + rideRequest.pickupLocation + "\nDropoff: " + rideRequest.dropoffLocation);
+                });
+                connection.start()
+                    .then(function() {
+                        console.log("SignalR connection established.");
+                    })
+                    .catch(function(err) {
+                        console.error("Error establishing SignalR connection:", err);
+                    });
+            }
+            function acceptTrip() {
+                connection.invoke("AcceptTrip")
+                    .then(function() {
+                        console.log("Trip accepted.");
+                    })
+                    .catch(function(err) {
+                        console.error("Error accepting trip:", err);
+                    });
+            }
+
+            function startTrip() {
+                connection.invoke("StartTrip")
+                    .then(function() {
+                        console.log("Trip started.");
+                    })
+                    .catch(function(err) {
+                        console.error("Error starting trip:", err);
+                    });
+            }
+            setupSignalRConnection();
+        </script>
+    </body>
+</html>

@@ -37,7 +37,17 @@ builder.WebHost.ConfigureKestrel(options =>
 {
     options.Listen(System.Net.IPAddress.Any, 5000);
 });
-
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("Dev", policy =>
+    {
+        policy
+            .WithOrigins("http://0.0.0.0:5500", "http://localhost:5500")
+            .AllowAnyHeader()
+            .AllowAnyMethod()
+            .AllowCredentials();
+    });
+});
 // Add services to the container.
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -110,6 +120,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 app.UseMiddleware<UberMonolith.API.ExceptionHandlerMiddleware>();
+app.UseCors("Dev");
 app.MapHub<TripHub>("/tripHub");
 app.UseHttpsRedirection();
 

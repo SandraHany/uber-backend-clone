@@ -10,6 +10,15 @@ public class TripHub : Hub
     {
         _logger = logger;
     }
+    public void AcceptTrip()
+    {
+            _logger.LogInformation($"Driver {Context.UserIdentifier} accepted the trip");
+    }
+
+    public void StartTrip()
+    {
+            _logger.LogInformation($"Driver {Context.UserIdentifier} started the trip");
+    }
 
 }
     

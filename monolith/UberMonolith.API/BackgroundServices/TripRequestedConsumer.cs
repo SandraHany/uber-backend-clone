@@ -43,7 +43,7 @@ public class TripRequestedConsumer : BackgroundService
             var nearbyDrivers = await rideService.GetNearbyDrivers(double.Parse(rideRequestedEvent.PickupLatitude), double.Parse(rideRequestedEvent.PickupLongitude), 3);
             _logger.LogInformation($"Found {nearbyDrivers.Count} nearby drivers for ride request");
             var hubContext = scope.ServiceProvider.GetRequiredService<IHubContext<TripHub>>();
-            foreach (var driver in nearbyDrivers)
+            /*foreach (var driver in nearbyDrivers)
             {
                 var notification = new RideRequestedEvent
                 {
@@ -57,7 +57,8 @@ public class TripRequestedConsumer : BackgroundService
                 };
                 _logger.LogInformation($"Notifying driver {driver.Id} of new ride request");
                 await hubContext.Clients.User(driver.Id.ToString()).SendAsync("ReceiveRideRequest", notification);
-            }
+            }*/
+            await hubContext.Clients.All.SendAsync("ReceiveRideRequest", rideRequestedEvent);
             _consumer.Commit(result);
 
         }
