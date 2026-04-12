@@ -12,6 +12,8 @@ using OpenTelemetry.Metrics;
 using Serilog.Sinks.Grafana.Loki;
 using Confluent.Kafka;
 
+using Serilog.Sinks.Elasticsearch;
+
 var builder = WebApplication.CreateBuilder(args);
 var connectionString =
     builder.Configuration.GetConnectionString("PostgreSqlConnection")
@@ -68,7 +70,12 @@ builder.Services.AddSingleton<IConsumer<string, string>>(sp =>
     var config = sp.GetRequiredService<ConsumerConfig>();
     return new ConsumerBuilder<string, string>(config).Build();
 });
+ builder.Services.Configure<HostOptions>(options =>
+{
+    options.BackgroundServiceExceptionBehavior = BackgroundServiceExceptionBehavior.Ignore;
+});
  builder.Services.AddHostedService<TripRequestedConsumer>();
+
 builder.Services.AddOpenTelemetry()
     .ConfigureResource(resource=> resource.AddService(DiagnosticsConfig.ServiceName))
     .WithMetrics(metrics =>
@@ -89,9 +96,24 @@ builder.Services.AddOpenTelemetry()
     });
 
 
+builder.Host.UseSerilog((context, configuration) => configuration
 
-
-                  
+    .Enrich.FromLogContext()
+    .Enrich.WithMachineName()
+    .WriteTo.Console()
+  .WriteTo.Elasticsearch(new ElasticsearchSinkOptions(
+    new Uri(context.Configuration["ElasticConfiguration:Uri"]!))
+    {
+        IndexFormat = $"{DiagnosticsConfig.ServiceName.ToLower()}-logs-{context.HostingEnvironment.EnvironmentName.ToLower().Replace(".", "-")}-{DateTime.UtcNow:yyyy-MM}",
+        AutoRegisterTemplate = true,
+        NumberOfShards = 2,
+        NumberOfReplicas = 1,
+        FailureCallback = (logEvent, ex) => Console.WriteLine($"Serilog ES sink failed: {ex?.Message}"),
+        EmitEventFailure = EmitEventFailureHandling.WriteToSelfLog | EmitEventFailureHandling.RaiseCallback
+    })
+    .Enrich.WithProperty("Environment", context.HostingEnvironment.EnvironmentName)
+    .ReadFrom.Configuration(context.Configuration));
+       
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
