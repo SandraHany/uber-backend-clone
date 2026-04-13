@@ -25,7 +25,7 @@ public class RideService : IRideService
         };
         try
         {
-            var deliveryReport = await _producer.ProduceAsync("trip-requested", message);
+            var deliveryReport = await _producer.ProduceAsync("trip.requested", message);
             if (deliveryReport.Status == PersistenceStatus.NotPersisted)
             {
                 _logger.LogError($"Failed to produce message: {deliveryReport.Message.Value}");

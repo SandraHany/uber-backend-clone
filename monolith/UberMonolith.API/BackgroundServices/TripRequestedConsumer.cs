@@ -19,13 +19,13 @@ public class TripRequestedConsumer : BackgroundService
     }
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        _consumer.Subscribe("trip-requested"); 
+        _consumer.Subscribe("trip.requested"); 
         while (!stoppingToken.IsCancellationRequested)
         {
             try
             {
 
-                _logger.LogInformation("Consuming messages from 'trip-requested' topic...");
+                _logger.LogInformation("Consuming messages from 'trip.requested' topic...");
                 var result = _consumer.Consume(stoppingToken);
                             if (result.IsPartitionEOF)
                 {
