@@ -1,4 +1,4 @@
-name : ubermonolith
+name : uber
 
 services:
   postgres:
@@ -7,11 +7,22 @@ services:
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: password
-      POSTGRES_DB: ubermonolith
+      POSTGRES_DB: uberdb
     ports:
       - "5432:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
+  postgres-keycloak:
+    image: postgres:16
+    container_name: postgres-keycloak
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: keycloak
+    ports:
+      - "5435:5432"
+    volumes:
+      - pgkcdata:/var/lib/postgresql/data
   redis:
     image: redis:latest
     container_name: redis
@@ -97,14 +108,28 @@ services:
       - KEYCLOAK_ADMIN=admin
       - KEYCLOAK_ADMIN_PASSWORD=admin
       - KC_HEALTH_ENABLED=true
+      - KC_DB=postgres
+      - KC_DB_URL=jdbc:postgresql://postgres-keycloak:5432/keycloak
+      - KC_DB_USERNAME=postgres
+      - KC_DB_PASSWORD=password
     ports:
       - "8080:8080"
       - "9000:9000"
-    command: ["start-dev"]
+    command: ["start-dev","--import-realm"]
     volumes:
       - keycloakdata:/opt/keycloak/data
     user: root
-
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "5050:80"
+    depends_on:
+      - postgres
+      - postgres-keycloak
 
 volumes:
   pgdata:
@@ -112,3 +137,4 @@ volumes:
   redisdata:
   kafkadata:
   keycloakdata:
+  pgkcdata:
