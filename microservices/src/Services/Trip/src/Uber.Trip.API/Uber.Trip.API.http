@@ -1,0 +1,6 @@
+@Uber.Trip.API_HostAddress = http://localhost:5120
+
+GET {{Uber.Trip.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

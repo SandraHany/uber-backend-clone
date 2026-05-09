@@ -1,0 +1,11 @@
+{
+  "profiles": {
+    "Uber.Trip.Domain": {
+      "commandName": "Project"
+    },
+    "Profile 1": {
+      "commandName": "Executable",
+      "executablePath": "C:\\Users\\Sandra\\source\\repos\\SandraHany\\uber-backend-clone\\microservices\\src\\Services\\Trip\\src\\Uber.Trip.API\\Uber.Trip.API.csproj"
+    }
+  }
+}

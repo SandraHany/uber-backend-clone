@@ -1,0 +1,7 @@
+<Solution>
+  <Project Path="../../Shared/Uber.Sharedkernel/Uber.Sharedkernel.csproj" />
+  <Project Path="src/Uber.Trip.API/Uber.Trip.API.csproj" />
+  <Project Path="src/Uber.Trip.Application/Uber.Trip.Application.csproj" />
+  <Project Path="src/Uber.Trip.Domain/Uber.Trip.Domain.csproj" />
+  <Project Path="src/Uber.Trip.Infrastructure/Uber.Trip.Infrastructure.csproj" />
+</Solution>
