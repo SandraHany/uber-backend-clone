@@ -14,12 +14,18 @@ public class VoyageRepository : IVoyageRepository
         _dbContext = dbContext;
     }
 
-    public async Task AddAsync(Domain.Entities.Voyage voyage, CancellationToken ct = default)
+    public async Task AddAsync(Domain.Entities.AggregateRoots.Voyage voyage, CancellationToken ct = default)
     => await _dbContext.Voyages.AddAsync(voyage, ct);
 
     public async Task<bool> ExistsAsync(Guid id, CancellationToken ct = default)
     => await _dbContext.Voyages.AnyAsync(v => v.Id == id, ct);
 
-    public async Task<Domain.Entities.Voyage?> GetByIdAsync(Guid id, CancellationToken ct = default)
+    public async Task<Domain.Entities.AggregateRoots.Voyage?> GetByIdAsync(Guid id, CancellationToken ct = default)
     => await _dbContext.Voyages.FirstOrDefaultAsync(v => v.Id == id, ct);
+
+    public async Task UpdateAsync(Domain.Entities.AggregateRoots.Voyage voyage, CancellationToken ct = default)
+    {
+        _dbContext.Voyages.Update(voyage);
+        await Task.CompletedTask;
+    }
 }

@@ -1,16 +1,16 @@
-﻿using System;
+﻿using MediatR;
+using System;
 using System.Collections.Generic;
 using System.Text;
-using Uber.Voyage.Application.Abstractions;
-using Uber.Voyage.Domain.Repositories;
-using Uber.Voyage.Domain.Entities;
-using Uber.Voyage.Domain.ValueObjects;
 using Uber.Shared.Primitives;
+using Uber.Voyage.Application.Abstractions;
+using Uber.Voyage.Domain.Entities.ValueObjects;
+using Uber.Voyage.Domain.Repositories;
 namespace Uber.Voyage.Application.Features.RequestTrip
 {
     internal sealed class RequestVoyageCommandHandler(
   IVoyageRepository voyageRepository,
-  IUnitOfWork uow)
+  IUnitOfWork uow) : IRequestHandler<RequestVoyageCommand, Result<Guid>>
     {
         public async Task<Result<Guid>> Handle(RequestVoyageCommand command, CancellationToken ct)
         {
@@ -19,7 +19,7 @@ namespace Uber.Voyage.Application.Features.RequestTrip
             if (pickup.IsFailure) return pickup.Error;
             if (dropoff.IsFailure) return dropoff.Error;
             //var fare = Fare.Create
-            var voyage = Domain.Entities.Voyage.Create(
+            var voyage = Domain.Entities.AggregateRoots.Voyage.Create(
             command.PassengerId,
             pickup.Value,
             dropoff.Value,

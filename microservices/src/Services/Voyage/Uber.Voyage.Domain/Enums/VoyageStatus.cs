@@ -6,9 +6,11 @@ namespace Uber.Voyage.Domain.Enums;
 
 public enum VoyageStatus
 {
-    Requested = 1, 
-    Accepted = 2, 
-    InProgress = 3,
-    Completed = 4,
-    Cancelled = 5  
+    Requested = 1,
+    SearchingForDriver = 2,
+    DriverFound = 3,
+    InProgress = 4,
+    Completed = 5,
+    Cancelled = 6,
+    Failed = 7
 }

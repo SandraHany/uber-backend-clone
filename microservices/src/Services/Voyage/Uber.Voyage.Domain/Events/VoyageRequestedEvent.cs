@@ -5,4 +5,4 @@ using Uber.Shared.Primitives;
 
 namespace Uber.Voyage.Domain.Events;
 
-public sealed record VoyageRequestedEvent(Guid TripId, Guid RiderId) : DomainEvent;
+public sealed record VoyageRequestedDomainEvent(Guid TripId, Guid RiderId) : DomainEvent;

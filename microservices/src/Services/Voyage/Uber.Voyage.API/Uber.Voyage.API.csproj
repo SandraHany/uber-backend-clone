@@ -20,7 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Shared\Uber.ServiceDefaults\Uber.ServiceDefaults.csproj" />
+    <ProjectReference Include="..\..\..\shared\Uber.ServiceDefaults\Uber.ServiceDefaults.csproj" />
     <ProjectReference Include="..\Uber.Voyage.Application\Uber.Voyage.Application.csproj" />
     <ProjectReference Include="..\Uber.Voyage.Infrastructure\Uber.Voyage.Infrastructure.csproj" />
   </ItemGroup>

@@ -7,7 +7,7 @@ namespace Uber.Shared;
 public static class KafkaTopics
 {
     // Domain events — published by services via outbox
-    public const string TripRequested = "trip.requested";
+    public const string VoyageRequested = "voyage.requested";
     public const string TripStarted = "trip.started";
     public const string TripCompleted = "trip.completed";
     public const string TripCancelled = "trip.cancelled";

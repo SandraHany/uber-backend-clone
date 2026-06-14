@@ -8,7 +8,9 @@ using Uber.Voyage.Application.Abstractions;
 using Uber.Voyage.Domain.Repositories;
 using Uber.Voyage.Infrastructure.Data;
 using Uber.Voyage.Infrastructure.Kafka;
+using Uber.Voyage.Infrastructure.Kafka.Consumers;
 using Uber.Voyage.Infrastructure.Persistence;
+using Uber.Voyage.Infrastructure.Persistence.Outbox;
 using Uber.Voyage.Infrastructure.Persistence.Repositories;
 
 namespace Uber.Voyage.Infrastructure;
@@ -20,9 +22,11 @@ public static class DependencyInjection
         IConfiguration configuration)
     {
 
-        services.AddDbContext<VoyageDbContext>(options =>
+        services.AddScoped<ConvertDomainEventsToOutboxMessage>();
+        services.AddDbContext<VoyageDbContext>((sp, options) =>
             options.UseNpgsql(configuration.GetConnectionString("UberVoyageWrite"))
-                    .UseSnakeCaseNamingConvention());
+                    .UseSnakeCaseNamingConvention()
+                    .AddInterceptors(sp.GetRequiredService<ConvertDomainEventsToOutboxMessage>()));
 
         services.AddSingleton<IDbConnectionFactory, PostgresReadDbConnectionFactory>();
 
@@ -30,7 +34,9 @@ public static class DependencyInjection
 
         services.AddSingleton<IKafkaProducer, KafkaProducer>();
 
-
+        services.AddHostedService<OutboxProcessor>();
+        services.AddHostedService<VoyageConsumer>();
+        services.AddScoped<IUnitOfWork>(sp => sp.GetRequiredService<VoyageDbContext>());
         return services;
     }
 }

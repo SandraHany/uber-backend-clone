@@ -1,63 +1,46 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Text.Json;
 using Uber.Shared;
 using Uber.Voyage.Application.Abstractions;
-using Uber.Voyage.Infrastructure.Kafka;
-
 namespace Uber.Voyage.Infrastructure.Persistence.Outbox;
 
-public sealed class OutboxProcessor : BackgroundService
+public class OutboxProcessor(ILogger<OutboxProcessor> logger, IServiceScopeFactory scopeFactory) : BackgroundService
 {
-
-    private readonly IServiceScopeFactory _scopeFactory;
-    private readonly ILogger<OutboxProcessor> _logger;
-
     private static readonly TimeSpan Interval = TimeSpan.FromSeconds(5);
-
-    public OutboxProcessor(IServiceScopeFactory scopeFactory, ILogger<OutboxProcessor> logger)
+    protected override async Task ExecuteAsync(CancellationToken ct)
     {
-        _scopeFactory = scopeFactory;
-        _logger = logger;
-    }
-
-    protected override async Task ExecuteAsync(CancellationToken stoppingToken)
-    {
-        while (!stoppingToken.IsCancellationRequested)
+        while (!ct.IsCancellationRequested)
         {
             try
             {
-                await ProcessAsync(stoppingToken);
+               await ProcessOutboxMessages(ct);
+
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "[OutboxProcessor] Unhandled error");
-            }
+                logger.LogError(ex, "Error processing outbox messages");
 
-            await Task.Delay(Interval, stoppingToken);
+            }
+            await Task.Delay(Interval, ct);
         }
     }
-
-    private async Task ProcessAsync(CancellationToken ct)
+    private async Task ProcessOutboxMessages(CancellationToken ct)
     {
-        using var scope = _scopeFactory.CreateScope();
+        logger.LogInformation("Checking for outbox messages...");
+        using var scope = scopeFactory.CreateScope();
 
         var dbContext = scope.ServiceProvider.GetRequiredService<VoyageDbContext>();
         var producer = scope.ServiceProvider.GetRequiredService<IKafkaProducer>();
 
-        var messages = await dbContext.Set<OutboxMessage>()
+        var messages = await dbContext.OutboxMessages
             .Where(m => m.ProcessedAt == null)
             .OrderBy(m => m.OccurredAt)
             .Take(50)
             .ToListAsync(ct);
-
         if (!messages.Any()) return;
-
         foreach (var message in messages)
         {
             try
@@ -66,7 +49,7 @@ public sealed class OutboxProcessor : BackgroundService
 
                 if (eventType is null)
                 {
-                    _logger.LogWarning(
+                    logger.LogWarning(
                         "[OutboxProcessor] Cannot resolve type {Type} for message {Id}",
                         message.Type, message.Id);
 
@@ -74,43 +57,47 @@ public sealed class OutboxProcessor : BackgroundService
                     message.Error = $"Type not found: {message.Type}";
                     continue;
                 }
-
-                var topic = ResolveTopicFromType(eventType);
-
+                string topic = "none";
+                switch (eventType.Name)
+                {
+                    case ("VoyageRequestedDomainEvent"):
+                        topic = KafkaTopics.VoyageRequested;
+                        break;
+                }  
+               
                 var domainEvent = JsonSerializer.Deserialize(message.Payload, eventType)!;
-
-                await producer.PublishAsync(
-                    topic,
-                    message.Id.ToString(),
-                    domainEvent,
-                    ct);
+                await producer.PublishAsync(topic, message.Id.ToString(), domainEvent, ct);
 
                 message.ProcessedAt = DateTime.UtcNow;
 
-                _logger.LogInformation(
+                logger.LogInformation(
                     "[OutboxProcessor] Published {Type} → {Topic}",
                     eventType.Name, topic);
+
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex,
+                logger.LogError(ex,
                     "[OutboxProcessor] Failed to publish message {Id} — will retry",
                     message.Id);
-
                 message.Error = ex.Message;
-            }
-        }
 
+            }
+            //fetch unprocessed messages
+            //foreach message, deserialize and publish to message broker
+            //mark as processed
+        }
         await dbContext.SaveChangesAsync(ct);
     }
-
-    private static string ResolveTopicFromType(Type type) => type.Name switch
+    /*private static string ResolveTopicFromType(Type type) => type.Name switch
     {
-        "TripRequestedDomainEvent" => KafkaTopics.TripRequested,
-        "TripAcceptedDomainEvent" => KafkaTopics.DriverAccepted,
-        "TripStartedDomainEvent" => KafkaTopics.TripStarted,
-        "TripCompletedDomainEvent" => KafkaTopics.TripCompleted,
-        "TripCancelledDomainEvent" => KafkaTopics.TripCancelled,
+        "TripRequestedDomainEvent" => Uber.Shared.KafkaTopics.TripRequested,
+        "TripAcceptedDomainEvent" => Uber.Shared.KafkaTopics.DriverAccepted,
+        "TripStartedDomainEvent" => Uber.Shared.KafkaTopics.TripStarted,
+        "TripCompletedDomainEvent" => Uber.Shared.KafkaTopics.TripCompleted,
+        "TripCancelledDomainEvent" => Uber.Shared.KafkaTopics.TripCancelled,
         _ => throw new InvalidOperationException($"No topic mapped for: {type.Name}")
-    };
+    };*/
 }
+
+

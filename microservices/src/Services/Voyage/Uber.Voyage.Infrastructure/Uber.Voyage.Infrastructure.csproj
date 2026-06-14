@@ -6,15 +6,10 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
-  <ItemGroup>
-    <EditorConfigFiles Remove="C:\Users\Sandra\source\repos\SandraHany\uber-backend-clone\microservices\src\Services\Voyage\Uber.Voyage.Infrastructure\.editorconfig" />
-  </ItemGroup>
+
 
   <ItemGroup>
-    <None Include="C:\Users\Sandra\source\repos\SandraHany\uber-backend-clone\microservices\src\Services\Voyage\Uber.Voyage.Infrastructure\.editorconfig" />
-  </ItemGroup>
-
-  <ItemGroup>
+    <PackageReference Include="Confluent.Kafka" />
     <PackageReference Include="EFCore.NamingConventions" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design">

@@ -1,140 +1,354 @@
-name : uber
+name: uber-backend
+volumes:
+  certs:
+    driver: local
+  esdata01:
+    driver: local
+  kibanadata:
+    driver: local
+  metricbeatdata01:
+    driver: local
+  filebeatdata01:
+    driver: local
+  logstashdata01:
+    driver: local
+  fleetserverdata:
+    driver: local
+  voyage_write_pgdata:
+    driver: local
+  voyage_read_pgdata:
+    driver: local
+networks:
+  elastic:
+    name: elastic
+    external: false
+  uber:
+    name: uber
+    driver: bridge
 
 services:
-  postgres:
-    image: postgres:16
-    container_name: postgres
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: uberdb
-    ports:
-      - "5432:5432"
+  setup:
+    image: docker.elastic.co/elasticsearch/elasticsearch:${STACK_VERSION}
     volumes:
-      - pgdata:/var/lib/postgresql/data
-  postgres-keycloak:
-    image: postgres:16
-    container_name: postgres-keycloak
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: keycloak
-    ports:
-      - "5435:5432"
-    volumes:
-      - pgkcdata:/var/lib/postgresql/data
-  redis:
-    image: redis:latest
-    container_name: redis
-    ports:
-      - "6379:6379"
-    volumes:
-      - redisdata:/data
-  kafka:
-    image: confluentinc/cp-kafka:7.6.0
-    container_name: kafka
-    ports:
-      - "9092:9092"
-    environment:
-      KAFKA_NODE_ID: 1
-      KAFKA_PROCESS_ROLES: broker,controller
-      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:29092,EXTERNAL://0.0.0.0:9092,CONTROLLER://0.0.0.0:9093
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:29092,EXTERNAL://localhost:9092
-      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,EXTERNAL:PLAINTEXT,CONTROLLER:PLAINTEXT
-      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
-      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
-      KAFKA_CONTROLLER_QUORUM_VOTERS: 1@kafka:9093
-      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
-      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
-      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
-      KAFKA_AUTO_CREATE_TOPICS_ENABLE: false
-      KAFKA_LOG_RETENTION_HOURS: 168
-      CLUSTER_ID: "MkU3OEVBNTcwNTJENDM2Qk"
-    volumes:
-      - kafkadata:/var/lib/kafka/data
+      - certs:/usr/share/elasticsearch/config/certs
+    user: "0"
+    command: >
+      bash -c '
+        if [ x${ELASTIC_PASSWORD} == x ]; then
+          echo "Set the ELASTIC_PASSWORD environment variable in the .env file";
+          exit 1;
+        elif [ x${KIBANA_PASSWORD} == x ]; then
+          echo "Set the KIBANA_PASSWORD environment variable in the .env file";
+          exit 1;
+        fi;
+        if [ ! -f config/certs/ca.zip ]; then
+          echo "Creating CA";
+          bin/elasticsearch-certutil ca --silent --pem -out config/certs/ca.zip;
+          unzip config/certs/ca.zip -d config/certs;
+        fi;
+        if [ ! -f config/certs/certs.zip ]; then
+          echo "Creating certs";
+          echo -ne \
+          "instances:\n"\
+          "  - name: es01\n"\
+          "    dns:\n"\
+          "      - es01\n"\
+          "      - localhost\n"\
+          "    ip:\n"\
+          "      - 127.0.0.1\n"\
+          "  - name: kibana\n"\
+          "    dns:\n"\
+          "      - kibana\n"\
+          "      - localhost\n"\
+          "    ip:\n"\
+          "      - 127.0.0.1\n"\
+          "  - name: fleet-server\n"\
+          "    dns:\n"\
+          "      - fleet-server\n"\
+          "      - localhost\n"\
+          "    ip:\n"\
+          "      - 127.0.0.1\n"\
+          > config/certs/instances.yml;
+          bin/elasticsearch-certutil cert --silent --pem -out config/certs/certs.zip --in config/certs/instances.yml --ca-cert config/certs/ca/ca.crt --ca-key config/certs/ca/ca.key;
+          unzip config/certs/certs.zip -d config/certs;
+        fi;
+        echo "Setting file permissions"
+        chown -R root:root config/certs;
+        find . -type d -exec chmod 750 \{\} \;;
+        find . -type f -exec chmod 640 \{\} \;;
+        echo "Waiting for Elasticsearch availability";
+        until curl -s --cacert config/certs/ca/ca.crt https://es01:9200 | grep -q "missing authentication credentials"; do sleep 30; done;
+        echo "Setting kibana_system password";
+        until curl -s -X POST --cacert config/certs/ca/ca.crt -u "elastic:${ELASTIC_PASSWORD}" -H "Content-Type: application/json" https://es01:9200/_security/user/kibana_system/_password -d "{\"password\":\"${KIBANA_PASSWORD}\"}" | grep -q "^{}"; do sleep 10; done;
+        echo "All done!";
+      '
     healthcheck:
-      test: ["CMD-SHELL", "kafka-broker-api-versions --bootstrap-server localhost:9092 || exit 1"]
-      interval: 10s
+      test: ["CMD-SHELL", "[ -f config/certs/es01/es01.crt ]"]
+      interval: 1s
       timeout: 5s
-      retries: 10
-  kafka-ui:
-    image: provectuslabs/kafka-ui:latest
-    container_name: kafka-ui
-    ports:
-      - "8081:8080"
-    environment:
-      KAFKA_CLUSTERS_0_NAME: ubermonolith-local
-      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:29092
+      retries: 120
+
+  es01:
     depends_on:
-      kafka:
-        condition: service_healthy
-  ubermonolith.dashboard:
-    image: mcr.microsoft.com/dotnet/aspire-dashboard:latest
-    container_name: dashboard
-    ports:
-      - 18888:18888
-    
-  elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:8.13.0
-    container_name: elasticsearch
-    environment:
-      - discovery.type=single-node
-      - xpack.security.enabled=false
-      - ES_JAVA_OPTS=-Xms768m -Xmx768m
-    ports:
-      - "9200:9200"
+      setup:
+        condition: service_completed_successfully
+    image: docker.elastic.co/elasticsearch/elasticsearch:${STACK_VERSION}
+    labels:
+      co.elastic.logs/module: elasticsearch
     volumes:
-      - esdata:/usr/share/elasticsearch/data
+      - certs:/usr/share/elasticsearch/config/certs
+      - esdata01:/usr/share/elasticsearch/data
+    ports:
+      - ${ES_PORT}:9200
+    environment:
+      - node.name=es01
+      - cluster.name=${CLUSTER_NAME}
+      - discovery.type=single-node
+      - ELASTIC_PASSWORD=${ELASTIC_PASSWORD}
+      - bootstrap.memory_lock=true
+      - xpack.security.enabled=true
+      - xpack.security.http.ssl.enabled=true
+      - xpack.security.http.ssl.key=certs/es01/es01.key
+      - xpack.security.http.ssl.certificate=certs/es01/es01.crt
+      - xpack.security.http.ssl.certificate_authorities=certs/ca/ca.crt
+      - xpack.security.transport.ssl.enabled=true
+      - xpack.security.transport.ssl.key=certs/es01/es01.key
+      - xpack.security.transport.ssl.certificate=certs/es01/es01.crt
+      - xpack.security.transport.ssl.certificate_authorities=certs/ca/ca.crt
+      - xpack.security.transport.ssl.verification_mode=certificate
+      - xpack.license.self_generated.type=${LICENSE}
+    mem_limit: ${ES_MEM_LIMIT}
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
     healthcheck:
-      test: ["CMD-SHELL", "curl -sf http://localhost:9200/_cluster/health || exit 1"]
+      test:
+        [
+          "CMD-SHELL",
+          "curl -s --cacert config/certs/ca/ca.crt https://localhost:9200 | grep -q 'missing authentication credentials'",
+        ]
       interval: 10s
-      timeout: 5s
-      retries: 12
+      timeout: 10s
+      retries: 120
 
   kibana:
-    image: docker.elastic.co/kibana/kibana:8.13.0
-    container_name: kibana
-    ports:
-      - "5601:5601"
-    environment:
-      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
     depends_on:
-      elasticsearch:
+      es01:
         condition: service_healthy
-  keycloak:
-    image: quay.io/keycloak/keycloak:latest
-    container_name: keycloak
-    environment:
-      - KEYCLOAK_ADMIN=admin
-      - KEYCLOAK_ADMIN_PASSWORD=admin
-      - KC_HEALTH_ENABLED=true
-      - KC_DB=postgres
-      - KC_DB_URL=jdbc:postgresql://postgres-keycloak:5432/keycloak
-      - KC_DB_USERNAME=postgres
-      - KC_DB_PASSWORD=password
-    ports:
-      - "8080:8080"
-      - "9000:9000"
-    command: ["start-dev","--import-realm"]
+    image: docker.elastic.co/kibana/kibana:${STACK_VERSION}
+    labels:
+      co.elastic.logs/module: kibana
     volumes:
-      - keycloakdata:/opt/keycloak/data
-    user: root
-  pgadmin:
-    image: dpage/pgadmin4
-    container_name: pgadmin
-    environment:
-      PGADMIN_DEFAULT_EMAIL: admin@admin.com
-      PGADMIN_DEFAULT_PASSWORD: admin
+      - certs:/usr/share/kibana/config/certs
+      - kibanadata:/usr/share/kibana/data
+      - ./src/infra/elk/kibana.yml:/usr/share/kibana/config/kibana.yml:ro
     ports:
-      - "5050:80"
-    depends_on:
-      - postgres
-      - postgres-keycloak
+      - ${KIBANA_PORT}:5601
+    environment:
+      - SERVERNAME=kibana
+      - ELASTICSEARCH_HOSTS=https://es01:9200
+      - ELASTICSEARCH_USERNAME=kibana_system
+      - ELASTICSEARCH_PASSWORD=${KIBANA_PASSWORD}
+      - ELASTICSEARCH_SSL_CERTIFICATEAUTHORITIES=config/certs/ca/ca.crt
+      - XPACK_SECURITY_ENCRYPTIONKEY=${ENCRYPTION_KEY}
+      - XPACK_ENCRYPTEDSAVEDOBJECTS_ENCRYPTIONKEY=${ENCRYPTION_KEY}
+      - XPACK_REPORTING_ENCRYPTIONKEY=${ENCRYPTION_KEY}
+      - XPACK_REPORTING_KIBANASERVER_HOSTNAME=localhost
+      - SERVER_SSL_ENABLED=true
+      - SERVER_SSL_CERTIFICATE=config/certs/kibana/kibana.crt
+      - SERVER_SSL_KEY=config/certs/kibana/kibana.key
+      - SERVER_SSL_CERTIFICATEAUTHORITIES=config/certs/ca/ca.crt
+      - ELASTIC_APM_SECRET_TOKEN=${ELASTIC_APM_SECRET_TOKEN}
+    mem_limit: ${KB_MEM_LIMIT}
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "curl -I -s --cacert config/certs/ca/ca.crt https://localhost:5601 | grep -q 'HTTP/1.1 302 Found'",
+        ]
+      interval: 10s
+      timeout: 10s
+      retries: 120
 
-volumes:
-  pgdata:
-  esdata:
-  redisdata:
-  kafkadata:
-  keycloakdata:
-  pgkcdata:
+  metricbeat01:
+    depends_on:
+      es01:
+        condition: service_healthy
+      kibana:
+        condition: service_healthy
+    image: docker.elastic.co/beats/metricbeat:${STACK_VERSION}
+    user: root
+    volumes:
+      - certs:/usr/share/metricbeat/certs
+      - metricbeatdata01:/usr/share/metricbeat/data
+      - "./src/infra/elk/metricbeat.yml:/usr/share/metricbeat/metricbeat.yml:ro"
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+      - "/sys/fs/cgroup:/hostfs/sys/fs/cgroup:ro"
+      - "/proc:/hostfs/proc:ro"
+      - "/:/hostfs:ro"
+    environment:
+      - ELASTIC_USER=elastic
+      - ELASTIC_PASSWORD=${ELASTIC_PASSWORD}
+      - ELASTIC_HOSTS=https://es01:9200
+      - KIBANA_HOSTS=https://kibana:5601
+      - LOGSTASH_HOSTS=http://logstash01:9600
+      - CA_CERT=certs/ca/ca.crt
+      - ES_CERT=certs/es01/es01.crt
+      - ES_KEY=certs/es01/es01.key
+      - KB_CERT=certs/kibana/kibana.crt
+      - KB_KEY=certs/kibana/kibana.key
+    command:
+      -strict.perms=false
+
+  filebeat01:
+    depends_on:
+      es01:
+        condition: service_healthy
+    image: docker.elastic.co/beats/filebeat:${STACK_VERSION}
+    user: root
+    volumes:
+      - certs:/usr/share/filebeat/certs
+      - filebeatdata01:/usr/share/filebeat/data
+      - "./filebeat_ingest_data/:/usr/share/filebeat/ingest_data/"
+      - "./src/infra/elk/filebeat.yml:/usr/share/filebeat/filebeat.yml:ro"
+      - "/var/lib/docker/containers:/var/lib/docker/containers:ro"
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+    environment:
+      - ELASTIC_USER=elastic
+      - ELASTIC_PASSWORD=${ELASTIC_PASSWORD}
+      - ELASTIC_HOSTS=https://es01:9200
+      - KIBANA_HOSTS=https://kibana:5601
+      - LOGSTASH_HOSTS=http://logstash01:9600
+      - CA_CERT=certs/ca/ca.crt
+    command:
+      -strict.perms=false
+
+  logstash01:
+    depends_on:
+      es01:
+        condition: service_healthy
+      kibana:
+        condition: service_healthy
+    image: docker.elastic.co/logstash/logstash:${STACK_VERSION}
+    labels:
+      co.elastic.logs/module: logstash
+    user: root
+    volumes:
+      - certs:/usr/share/logstash/certs
+      - logstashdata01:/usr/share/logstash/data
+      - "./logstash_ingest_data/:/usr/share/logstash/ingest_data/"
+      - "./src/infra/elk/logstash.conf:/usr/share/logstash/pipeline/logstash.conf:ro"
+    environment:
+      - xpack.monitoring.enabled=false
+      - ELASTIC_USER=elastic
+      - ELASTIC_PASSWORD=${ELASTIC_PASSWORD}
+      - ELASTIC_HOSTS=https://es01:9200
+
+  fleet-server:
+    depends_on:
+      kibana:
+        condition: service_healthy
+      es01:
+        condition: service_healthy
+    image: docker.elastic.co/beats/elastic-agent:${STACK_VERSION}
+    volumes:
+      - certs:/certs
+      - fleetserverdata:/usr/share/elastic-agent
+      - "/var/lib/docker/containers:/var/lib/docker/containers:ro"
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+      - "/sys/fs/cgroup:/hostfs/sys/fs/cgroup:ro"
+      - "/proc:/hostfs/proc:ro"
+      - "/:/hostfs:ro"
+    ports:
+      - ${FLEET_PORT}:8220
+      - ${APMSERVER_PORT}:8200
+    user: root
+    environment:
+      - SSL_CERTIFICATE_AUTHORITIES=/certs/ca/ca.crt
+      - CERTIFICATE_AUTHORITIES=/certs/ca/ca.crt
+      - FLEET_CA=/certs/ca/ca.crt
+      - FLEET_ENROLL=1
+      - FLEET_INSECURE=true
+      - FLEET_SERVER_ELASTICSEARCH_CA=/certs/ca/ca.crt
+      - FLEET_SERVER_ELASTICSEARCH_HOST=https://es01:9200
+      - FLEET_SERVER_ELASTICSEARCH_INSECURE=true
+      - FLEET_SERVER_ENABLE=1
+      - FLEET_SERVER_CERT=/certs/fleet-server/fleet-server.crt
+      - FLEET_SERVER_CERT_KEY=/certs/fleet-server/fleet-server.key
+      - FLEET_SERVER_INSECURE_HTTP=true
+      - FLEET_SERVER_POLICY_ID=fleet-server-policy
+      - FLEET_URL=https://fleet-server:8220
+      - KIBANA_FLEET_CA=/certs/ca/ca.crt
+      - KIBANA_FLEET_SETUP=1
+      - KIBANA_FLEET_USERNAME=elastic
+      - KIBANA_FLEET_PASSWORD=${ELASTIC_PASSWORD}
+      - KIBANA_HOST=https://kibana:5601
+  voyage-db-write:
+    image: postgres:16-alpine
+    container_name:  voyage-db-write
+    networks:
+      - uber
+    environment:
+      - POSTGRES_DB=${VOYAGE_DB_WRITE_NAME}
+      - POSTGRES_USER=${VOYAGE_DB_USER}
+      - POSTGRES_PASSWORD=${VOYAGE_DB_PASSWORD}
+    volumes:
+      - voyage_read_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${VOYAGE_DB_USER} -d ${VOYAGE_DB_WRITE_NAME}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+  voyage-db-read:
+    image: postgres:16-alpine
+    container_name:  voyage-db-read
+    networks:
+      - uber
+    environment:
+      - POSTGRES_DB=${VOYAGE_DB_READ_NAME}
+      - POSTGRES_USER=${VOYAGE_DB_USER}
+      - POSTGRES_PASSWORD=${VOYAGE_DB_PASSWORD}
+    volumes:
+      - voyage_write_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${VOYAGE_DB_USER} -d ${VOYAGE_DB_READ_NAME}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+  voyage-service:
+    build:
+      context: .
+      dockerfile: src/services/Voyage/Dockerfile
+    container_name: voyage-service
+    networks:
+      - uber
+      - elastic
+    ports:
+      - "5285:8080"
+      - "5101:8081"  
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__UberVoyageWrite=Host=voyage-db-write;Port=${PG_PORT};Database=${VOYAGE_DB_WRITE_NAME};Username=${VOYAGE_DB_USER};Password=${VOYAGE_DB_PASSWORD}
+      - ConnectionStrings__UberVoyageRead=Host=voyage-db-read;Port=${PG_PORT};Database=${VOYAGE_DB_READ_NAME};Username=${VOYAGE_DB_USER};Password=${VOYAGE_DB_PASSWORD}
+      #- ConnectionStrings__Redis=redis:6379
+      #- Kafka__BootstrapServers=kafka:9092
+      #- Keycloak__Authority=http://keycloak:8080/realms/uber
+      #- Grpc__PricingService=http://pricing-service:8082
+      #- Serilog__WriteTo__1__Args__uri=http://logstash01:5000
+      #- OpenTelemetry__Endpoint=http://fleet-server:8200
+    depends_on:
+      voyage-db-read:
+        condition: service_healthy
+      voyage-db-write:
+        condition: service_healthy
+    #  kafka:
+    #    condition: service_healthy
+    #  redis:
+    #    condition: service_healthy
+    #  keycloak:
+    #    condition: service_started
+    labels:
+      co.elastic.logs/enabled: "true"
+      co.elastic.logs/module: voyage-service
+      service.name: voyage-service

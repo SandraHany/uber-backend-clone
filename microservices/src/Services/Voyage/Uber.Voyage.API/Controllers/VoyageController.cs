@@ -6,7 +6,7 @@ using Uber.Voyage.Application.Features.GetVoyage;
 using Uber.Voyage.Application.Features.RequestTrip;
 
 namespace Uber.Voyage.API.Controllers;
-
+           
 [Route("api/[controller]")]
 [ApiController]
 public class VoyageController(ISender sender) : ApiController

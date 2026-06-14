@@ -1,14 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Uber.Voyage.Domain.Entities;
 using Uber.Voyage.Domain.Enums;
-using Uber.Voyage.Domain.ValueObjects;
 
 namespace Uber.Voyage.Infrastructure.Persistence.Configurations;
 
-public sealed class VoyageConfiguration : IEntityTypeConfiguration<Domain.Entities.Voyage>
+public sealed class VoyageConfiguration : IEntityTypeConfiguration<Domain.Entities.AggregateRoots.Voyage>
 {
-    public void Configure(EntityTypeBuilder<Domain.Entities.Voyage> builder)
+    public void Configure(EntityTypeBuilder<Domain.Entities.AggregateRoots.Voyage> builder)
     {
         builder.ToTable("voyages");
 

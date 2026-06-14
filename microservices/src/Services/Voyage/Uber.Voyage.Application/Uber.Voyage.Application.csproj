@@ -15,7 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Shared\Uber.Shared\Uber.Shared.csproj" />
+    <ProjectReference Include="..\..\..\shared\Uber.Shared\Uber.Shared.csproj" />
     <ProjectReference Include="..\Uber.Voyage.Domain\Uber.Voyage.Domain.csproj" />
   </ItemGroup>
 

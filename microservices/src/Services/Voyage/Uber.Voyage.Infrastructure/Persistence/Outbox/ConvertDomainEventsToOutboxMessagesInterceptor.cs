@@ -1,31 +1,22 @@
-﻿using Microsoft.EntityFrameworkCore.Diagnostics;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
+using Microsoft.Extensions.Logging;
 using System.Text.Json;
 using Uber.Shared.Primitives;
 
 namespace Uber.Voyage.Infrastructure.Persistence.Outbox;
 
-public class ConvertDomainEventsToOutboxMessagesInterceptor : SaveChangesInterceptor
+public class ConvertDomainEventsToOutboxMessage(ILogger<ConvertDomainEventsToOutboxMessage> logger) : SaveChangesInterceptor
 {
-    public override ValueTask<InterceptionResult<int>> SavingChangesAsync(
-    DbContextEventData eventData,
-    InterceptionResult<int> result,
-    CancellationToken cancellationToken = default)
-    {
-        var dbContext = eventData.Context;
-        if (dbContext is null)
-            return base.SavingChangesAsync(eventData, result, cancellationToken);
-        
-        var aggregates = dbContext.ChangeTracker
-            .Entries<AggregateRoot>()
-            .Where(e => e.Entity.DomainEvents.Any())
-            .Select(e => e.Entity)
-            .ToList();
 
-        var outboxMessages = aggregates
-            .SelectMany(a => a.DomainEvents)
+    public override ValueTask<InterceptionResult<int>> SavingChangesAsync(DbContextEventData eventData, InterceptionResult<int> result,CancellationToken ct)
+    {
+        logger.LogInformation("Converting domain events to outbox messages.");
+        var dbContext = eventData.Context;
+        if (dbContext == null) return base.SavingChangesAsync(eventData, result, ct);
+        var outboxMessages = dbContext.ChangeTracker.Entries<AggregateRoot>()
+            .Where(e => e.Entity.DomainEvents != null && e.Entity.DomainEvents.Any())
+            .SelectMany(e => e.Entity.DomainEvents)
             .Select(domainEvent => new OutboxMessage
             {
                 Id = Guid.NewGuid(),
@@ -34,12 +25,9 @@ public class ConvertDomainEventsToOutboxMessagesInterceptor : SaveChangesInterce
                 Payload = JsonSerializer.Serialize(domainEvent, domainEvent.GetType())
             })
             .ToList();
-
         dbContext.Set<OutboxMessage>().AddRange(outboxMessages);
-
-        foreach (var aggregate in aggregates)
-            aggregate.ClearDomainEvents();
-
-        return base.SavingChangesAsync(eventData, result, cancellationToken);
+        foreach (var aggregate in dbContext.ChangeTracker.Entries<AggregateRoot>())
+            aggregate.Entity.ClearDomainEvents();
+        return base.SavingChangesAsync(eventData, result,ct);
     }
 }
