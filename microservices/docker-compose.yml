@@ -18,6 +18,9 @@ volumes:
     driver: local
   voyage_read_pgdata:
     driver: local
+  kafka1-data:
+    driver: local
+
 networks:
   elastic:
     name: elastic
@@ -27,6 +30,59 @@ networks:
     driver: bridge
 
 services:
+  kafka-gen:
+    image: confluentinc/cp-kafka:7.3.3
+    hostname: kafka-gen
+    container_name: kafka-gen
+    volumes:
+      - ./create_cluster_id.sh:/tmp/create_cluster_id.sh.orig
+      - ./clusterID:/tmp/clusterID
+    #command: "bash -c 'sed -i \"s/\\r$$//\" /tmp/create_cluster_id.sh && chmod +x /tmp/create_cluster_id.sh && /tmp/create_cluster_id.sh'"
+    command: "bash -c 'tr -d \"\\r\" < /tmp/create_cluster_id.sh.orig > /tmp/create_cluster_id.sh && chmod +x /tmp/create_cluster_id.sh && /tmp/create_cluster_id.sh'"
+  # Broker #1
+
+  kafka1:
+    image: confluentinc/cp-kafka:7.3.3
+    hostname: kafka1
+    container_name: kafka1
+    ports:
+      - "39092:39092"
+    environment:
+      KAFKA_LISTENERS: BROKER://kafka1:19092,EXTERNAL://kafka1:39092,CONTROLLER://kafka1:9093
+      KAFKA_ADVERTISED_LISTENERS: BROKER://kafka1:19092,EXTERNAL://localhost:39092
+      KAFKA_INTER_BROKER_LISTENER_NAME: BROKER
+      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: CONTROLLER:PLAINTEXT,BROKER:PLAINTEXT,EXTERNAL:PLAINTEXT
+      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
+      KAFKA_PROCESS_ROLES: 'controller,broker'
+      KAFKA_NODE_ID: 1
+      KAFKA_CONTROLLER_QUORUM_VOTERS: '1@kafka1:9093'
+      KAFKA_METADATA_LOG_SEGMENT_MS: 15000
+      KAFKA_METADATA_MAX_RETENTION_MS: 1200000
+      KAFKA_METADATA_LOG_MAX_RECORD_BYTES_BETWEEN_SNAPSHOTS: 2800
+      KAFKA_LOG_DIRS: '/tmp/kraft-combined-logs'
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+    volumes:
+      - kafka1-data:/var/lib/kafka/data
+      - ./update_run.sh:/tmp/update_run.sh.orig
+      - ./clusterID:/tmp/clusterID
+
+    #command: "bash -c 'sed -i \"s/\\r$$//\" /tmp/update_run.sh && chmod +x /tmp/update_run.sh && /tmp/update_run.sh && /etc/confluent/docker/run'"
+    command: "bash -c 'tr -d \"\\r\" < /tmp/update_run.sh.orig > /tmp/update_run.sh && chmod +x /tmp/update_run.sh && /tmp/update_run.sh && /etc/confluent/docker/run'"
+    # Kafka web UI application. Found at http://localhost:8080/ui/
+
+  kafka-ui:
+    container_name: kafka-ui
+    image: provectuslabs/kafka-ui:latest
+    ports:
+      - 8080:8080
+    depends_on:
+      - kafka1
+    environment:
+      KAFKA_CLUSTERS_0_NAME: local
+      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka1:19092
+      KAFKA_CLUSTERS_0_METRICS_PORT: 9997
+
   setup:
     image: docker.elastic.co/elasticsearch/elasticsearch:${STACK_VERSION}
     volumes:
@@ -346,7 +402,7 @@ services:
     #    condition: service_healthy
     #  redis:
     #    condition: service_healthy
-    #  keycloak:
+    #  keycloak: 
     #    condition: service_started
     labels:
       co.elastic.logs/enabled: "true"
